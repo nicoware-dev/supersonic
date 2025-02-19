@@ -471,12 +471,18 @@ export const explorerProvider: Provider = {
                     );
                     const txCountData = await txCountResponse.json();
 
-                    if (!balanceData.result || balanceData.status !== "1") {
+                    // Check for REST API response format
+                    if (balanceData.status !== "1" || !balanceData.result) {
                         throw new Error("Failed to fetch balance data");
                     }
 
+                    // Check for JSON-RPC response format
+                    if (!txCountData.result) {
+                        throw new Error("Failed to fetch transaction count");
+                    }
+
                     const balance = formatSValue(balanceData.result);
-                    const txCount = parseInt(txCountData.result || '0', 16);
+                    const txCount = parseInt(txCountData.result.replace('0x', ''), 16);
 
                     return `# Account Information for \`${address}\`
 
@@ -513,20 +519,28 @@ _Last Updated: ${new Date().toLocaleString()}_`;
                         blockResponse.json()
                     ]);
 
-                    if (!supplyData.result || !priceData.result || !blockData.result) {
-                        throw new Error("Failed to fetch network stats");
+                    // Validate REST API responses
+                    if (supplyData.status !== "1" || !supplyData.result) {
+                        throw new Error("Failed to fetch supply data");
+                    }
+                    if (priceData.status !== "1" || !priceData.result) {
+                        throw new Error("Failed to fetch price data");
+                    }
+                    // Validate JSON-RPC response
+                    if (!blockData.result) {
+                        throw new Error("Failed to fetch block number");
                     }
 
                     const totalSupply = formatSValue(supplyData.result);
                     const priceUSD = parseFloat(priceData.result.ethusd);
-                    const latestBlock = parseInt(blockData.result, 16);
+                    const latestBlock = parseInt(blockData.result.replace('0x', ''), 16);
                     const marketCap = (Number(supplyData.result) / 1e18) * priceUSD;
 
                     return `# Sonic Network Overview
 
 ## Market Statistics
-- Current Price: ${formatCurrency(priceUSD)}
-- Market Cap: ${formatCurrency(marketCap)}
+- Current Price: $${formatCurrency(priceUSD)}
+- Market Cap: $${formatCurrency(marketCap)}
 - Total Supply: ${totalSupply} S
 
 ## Network Status
@@ -554,11 +568,12 @@ _Data Source: SonicScan Explorer_`;
                     );
                     const blockNumberData = await blockNumberResponse.json();
                     
+                    // Validate JSON-RPC response
                     if (!blockNumberData.result) {
                         throw new Error("Failed to fetch block number");
                     }
 
-                    const latestBlockNumber = parseInt(blockNumberData.result, 16);
+                    const latestBlockNumber = parseInt(blockNumberData.result.replace('0x', ''), 16);
                     
                     // Get block details
                     const blockResponse = await fetch(
@@ -566,14 +581,15 @@ _Data Source: SonicScan Explorer_`;
                     );
                     const blockData = await blockResponse.json();
 
+                    // Validate JSON-RPC response
                     if (!blockData.result) {
                         throw new Error("Failed to fetch block details");
                     }
 
                     const block = blockData.result;
-                    const timestamp = new Date(parseInt(block.timestamp, 16) * 1000);
-                    const gasUsed = parseInt(block.gasUsed, 16);
-                    const gasLimit = parseInt(block.gasLimit, 16);
+                    const timestamp = new Date(parseInt(block.timestamp.replace('0x', ''), 16) * 1000);
+                    const gasUsed = parseInt(block.gasUsed.replace('0x', ''), 16);
+                    const gasLimit = parseInt(block.gasLimit.replace('0x', ''), 16);
                     const txCount = block.transactions?.length || 0;
 
                     return `# Latest Block Information
