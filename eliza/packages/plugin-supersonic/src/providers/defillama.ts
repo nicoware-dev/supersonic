@@ -1,4 +1,5 @@
 import type { Provider, IAgentRuntime, Memory, State } from '@elizaos/core';
+import { elizaLogger } from '@elizaos/core';
 import axios from 'axios';
 
 // Types
@@ -126,7 +127,7 @@ async function fetchChainTVL(): Promise<TVLSummary> {
       last12Months
     };
   } catch (error) {
-    console.error('Error fetching chain TVL:', error);
+    elizaLogger.error('Error fetching chain TVL:', error);
     throw error;
   }
 }
@@ -137,7 +138,7 @@ async function fetchProtocolTVL(protocol: string): Promise<TVLSummary | null> {
     const data = response.data;
 
     if (!data?.tvl || !Array.isArray(data.tvl)) {
-      console.warn(`Invalid response format for protocol ${protocol}`);
+      elizaLogger.warn(`Invalid response format for protocol ${protocol}`);
       return null;
     }
 
@@ -153,7 +154,7 @@ async function fetchProtocolTVL(protocol: string): Promise<TVLSummary | null> {
       .filter(d => !Number.isNaN(d.tvl));
 
     if (last12Months.length === 0) {
-      console.warn(`No valid TVL data found for ${protocol}`);
+      elizaLogger.warn(`No valid TVL data found for ${protocol}`);
       return null;
     }
 
@@ -173,10 +174,10 @@ async function fetchProtocolTVL(protocol: string): Promise<TVLSummary | null> {
     };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 400) {
-      console.warn(`Protocol ${protocol} not found in DefiLlama`);
+      elizaLogger.warn(`Protocol ${protocol} not found in DefiLlama`);
       return null;
     }
-    console.error(`Error fetching protocol TVL for ${protocol}:`, error);
+    elizaLogger.error(`Error fetching protocol TVL for ${protocol}:`, error);
     return null;
   }
 }
@@ -206,7 +207,7 @@ async function fetchGlobalTVL(): Promise<GlobalTVLData> {
       topChains
     };
   } catch (error) {
-    console.error('Error fetching global TVL:', error);
+    elizaLogger.error('Error fetching global TVL:', error);
     throw error;
   }
 }
@@ -242,7 +243,7 @@ export const defiLlamaProvider: Provider = {
 
       return formatTVLData(chainData, protocolsData, globalData);
     } catch (error) {
-      console.error('Error in DefiLlama provider:', error);
+      elizaLogger.error('Error in DefiLlama provider:', error);
       return 'Currently unable to fetch TVL data. Please try again later.';
     }
   }

@@ -1,4 +1,5 @@
 import type { Provider, IAgentRuntime, Memory, State } from '@elizaos/core';
+import { elizaLogger } from '@elizaos/core';
 import axios from 'axios';
 
 const BASE_URL = 'https://api.coingecko.com/api/v3';
@@ -101,13 +102,14 @@ async function fetchMarketData(tokens: TokenInfo[]): Promise<CoinGeckoPriceRespo
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 429) {
-      // If rate limited and we have cache, return cache even if expired
+      elizaLogger.warn('Rate limited by CoinGecko API');
       if (marketDataCache.data) {
         return marketDataCache.data;
       }
       throw new Error('Rate limited by CoinGecko API and no cached data available');
     }
 
+    elizaLogger.error('Error fetching market data:', error);
     throw error;
   }
 }
@@ -162,7 +164,7 @@ export const coinGeckoProvider: Provider = {
         'Let me know if you need specific tokens or more detailed market analysis!'
       ].join('\n');
     } catch (error) {
-      console.error('Error in CoinGecko provider:', error);
+      elizaLogger.error('Error in CoinGecko provider:', error);
       return 'Currently, I\'m unable to fetch the latest prices due to a temporary issue with the market data feed. This may be due to a high number of requests or connectivity issues. However, typically, ETH, BTC, and S (Sonic) prices are reflective of broader market trends. Once the connection is re-established, I can provide the most up-to-date pricing information.';
     }
   }

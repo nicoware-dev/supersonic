@@ -15,6 +15,9 @@ import { stake } from "./actions/beets-lst/stake";
 import { unstake } from "./actions/beets-lst/unstake";
 import { withdraw as withdrawBeetsLst } from "./actions/beets-lst/withdraw";
 import { addLiquidity } from "./actions/beets-dex/add-liquidity";
+import { geckoTerminalProvider } from "./providers/geckoterminal";
+import { tokensProvider } from "./providers/tokens";
+import { marketAnalysisProvider } from "./providers/marketAnalysis";
 
 export const supersonicPlugin: Plugin = {
     name: "supersonic",
@@ -37,7 +40,10 @@ export const supersonicPlugin: Plugin = {
     providers: [
         coinGeckoProvider,
         defiLlamaProvider,
-        walletProvider
+        walletProvider,
+        geckoTerminalProvider,
+        tokensProvider,
+        marketAnalysisProvider
     ]
 };
 

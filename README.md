@@ -324,11 +324,36 @@ Search the web for latest news on Sonic Labs and its L1 Blockchain Ecosystem
 ```
 Get detailed TVL metrics for Sonic and global DeFi
 ```
+```
+What are the top 5 protocols by TVL in the Sonic ecosystem?
+```
 
-### Price Metrics
+### Price Metrics (CoinGecko)
 ```
 Get prices for ETH, BTC, S, Shadow, Beets and USDC
 ```
+
+### Pools Data (GeckoTerminal)
+```
+Show me the top pools on Sonic network
+```
+
+### Tokens Provider
+```
+Show me all Sonic tokens
+```
+```
+Show me information about wETH and stS tokens
+```
+
+### Market Analysis Provider
+```
+Show me the top gainers and losers in the Sonic network
+```
+```
+Show me full market analysis
+```
+
 
 ### Wallet Operations
 ```
