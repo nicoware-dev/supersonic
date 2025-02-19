@@ -371,6 +371,14 @@ Unstake 0.1 stS from Beets
 Withdraw 0.1 S from Beets
 ```
 
+### Add & Remove Liquidity (Beets DEX)
+```
+Add liquidity to Beets wS-stS pool with 0.1 S
+```
+```
+Remove all liquidity from Beets wS-stS pool
+```
+
 ### Token Lending & Borrowing (Silo Finance) (S and USDC supported)
 ```
 Deposit 0.1 S to Silo Finance

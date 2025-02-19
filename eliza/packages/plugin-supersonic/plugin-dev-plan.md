@@ -264,10 +264,10 @@ Key Silo Components:
 ### 3. Other Protocol Integrations
 
 #### 3.3 Liquid Staking Integration (Beets)
-- [ ] Implement staking actions
-- [ ] Add reward tracking
-- [ ] Implement unstaking functionality
-- [ ] Add delegation management
+- [✓] Implement staking actions
+- [✓] Add reward tracking
+- [✓] Implement unstaking functionality
+- [✓] Implement withdraw functionality
 
 #### 3.4 Add/remove Liquidity actions (Beets)
 - [ ] Implement add liquidity actions
