@@ -18,6 +18,7 @@ import { addLiquidity } from "./actions/beets-dex/add-liquidity";
 import { geckoTerminalProvider } from "./providers/geckoterminal";
 import { tokensProvider } from "./providers/tokens";
 import { marketAnalysisProvider } from "./providers/marketAnalysis";
+import { explorerProvider } from "./providers/explorer";
 
 export const supersonicPlugin: Plugin = {
     name: "supersonic",
@@ -43,7 +44,8 @@ export const supersonicPlugin: Plugin = {
         walletProvider,
         geckoTerminalProvider,
         tokensProvider,
-        marketAnalysisProvider
+        marketAnalysisProvider,
+        explorerProvider
     ]
 };
 

@@ -335,13 +335,10 @@ Get prices for ETH, BTC, S, Shadow, Beets and USDC
 
 ### Pools Data (GeckoTerminal)
 ```
-Show me the top pools on Sonic network
+Show me TVL and Volume of the top pools on Sonic network
 ```
 
 ### Tokens Provider
-```
-Show me all Sonic tokens
-```
 ```
 Show me information about wETH and stS tokens
 ```
@@ -350,10 +347,6 @@ Show me information about wETH and stS tokens
 ```
 Show me the top gainers and losers in the Sonic network
 ```
-```
-Show me full market analysis
-```
-
 
 ### Wallet Operations
 ```
@@ -361,6 +354,20 @@ Show me my Sonic wallet address and S balance
 ```
 ```
 Show my portfolio
+```
+
+### Explorer Provider
+```
+Get info for wallet 0xFC6E877417D30d25AF8300460639e7c2Bc7657C6
+```
+```
+Show me network stats
+```
+```
+Show me the latest blocks
+```
+```
+Show me the latest transactions
 ```
 
 ### Token Transfers
