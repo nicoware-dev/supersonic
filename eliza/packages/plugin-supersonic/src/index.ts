@@ -11,6 +11,7 @@ import { deposit } from "./actions/silo-lending/deposit";
 import { withdraw } from "./actions/silo-lending/withdraw";
 import { borrow } from "./actions/silo-lending/borrow";
 import { repay } from "./actions/silo-lending/repay";
+import { stake } from "./actions/beets-lst/stake";
 
 export const supersonicPlugin: Plugin = {
     name: "supersonic",
@@ -23,7 +24,8 @@ export const supersonicPlugin: Plugin = {
         deposit,
         withdraw,
         borrow,
-        repay
+        repay,
+        stake
     ],
     evaluators: [],
     providers: [

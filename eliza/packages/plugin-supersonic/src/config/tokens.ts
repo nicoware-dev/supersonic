@@ -31,6 +31,14 @@ export const TOKENS: TokensConfig = {
         decimals: 18,
         coingeckoId: "sonic-3",
     },
+    stS: {
+        type: 'native',
+        symbol: "stS",
+        name: "Beets Staked Sonic ",
+        address: "0xE5DA20F15420aD15DE0fa650600aFc998bbE3955" as Address,
+        decimals: 18,
+        coingeckoId: "sonic-3",
+    },
     SHADOW: {
         type: 'erc20',
         symbol: "SHADOW",

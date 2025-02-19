@@ -360,6 +360,13 @@ Swap 0.01 USDC for S
 Swap 0.00001 WETH for USDC
 ```
 
+### Sonic Staking (Beets LST)
+```
+Stake 0.1 S with Beets
+```
+```
+Unstake 0.1 S with Beets
+```
 
 ### Token Lending & Borrowing (Silo Finance) (S and USDC supported)
 ```

@@ -210,9 +210,9 @@ Key Silo Components:
 #### 3.3 Lending Actions
 - [ ] Update Silo Finance integration
   - [✓] Deposit
-  - [ ] Withdraw
-  - [ ] Borrow
-  - [ ] Repay
+  - [✓] Withdraw
+  - [✓] Borrow
+  - [✓] Repay
   - [ ] Implement health factor monitoring
   - [ ] Add more tokens supported (WETH, stS)
 
