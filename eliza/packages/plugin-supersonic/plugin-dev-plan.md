@@ -210,9 +210,9 @@ Key Silo Components:
 #### 3.3 Lending Actions
 - [ ] Update Silo Finance integration
   - [✓] Deposit
-  - [ ] Withdraw
-  - [ ] Borrow
-  - [ ] Repay
+  - [✓] Withdraw
+  - [✓] Borrow
+  - [✓] Repay
   - [ ] Implement health factor monitoring
   - [ ] Add more tokens supported (WETH, stS)
 
@@ -236,24 +236,18 @@ Key Silo Components:
 ### 1. Provider Improvements
 
 #### 1.1 DefiLlama Provider Enhancement
-- [ ] Add protocol-specific analytics
+- [✓] Add protocol-specific analytics
 - [ ] Implement yield tracking
 - [ ] Add historical TVL data
 - [ ] Include volume analytics
 
-#### 1.2 CoinGecko Provider Enhancement
-- [ ] Add token price charts
-- [ ] Implement market depth analysis
-- [ ] Add trading volume tracking
-- [ ] Include market sentiment indicators
-
 ### 2. New Provider Implementation
 
 #### 2.1 GeckoTerminal Provider
-- [ ] Implement real-time price feeds
-- [ ] Add trading pair analytics
-- [ ] Include liquidity tracking
-- [ ] Add trading volume analysis
+- [✓] Implement real-time price feeds
+- [✓] Add trading pair analytics
+- [✓] Include liquidity tracking
+- [✓] Add trading volume analysis
 
 #### 2.2 Blockchain Explorer Provider
 - [ ] Implement transaction tracking
@@ -261,13 +255,30 @@ Key Silo Components:
 - [ ] Include gas analytics
 - [ ] Add token transfer tracking
 
+
+#### 2.3 Token Provider
+- [✓] Implement token provider
+- [✓] Add token price tracking
+- [✓] Include token market cap
+- [✓] Add token volume analysis
+
+#### 2.4 Market Analysis Provider
+- [✓] Implement market analysis provider
+- [✓] Add top gainers and losers
+- [✓] Include volume analytics
+- [✓] Add price change analysis
+
+
+
+
+
 ### 3. Other Protocol Integrations
 
 #### 3.3 Liquid Staking Integration (Beets)
-- [ ] Implement staking actions
-- [ ] Add reward tracking
-- [ ] Implement unstaking functionality
-- [ ] Add delegation management
+- [✓] Implement staking actions
+- [✓] Add reward tracking
+- [✓] Implement unstaking functionality
+- [✓] Implement withdraw functionality
 
 #### 3.4 Add/remove Liquidity actions (Beets)
 - [ ] Implement add liquidity actions
@@ -304,18 +315,18 @@ Key Silo Components:
 1. Basic Integration (Phase 1)
    - Chain configuration ✓
    - Token configuration ✓
-   - CoinGecko provider
-   - DefiLlama provider
+   - CoinGecko provider ✓
+   - DefiLlama provider ✓
 
 2. Core DeFi Features (Phase 2)
-   - Shadow Exchange integration (Uniswap V3 compatible)
-   - Basic Silo Finance integration (WETH/USDC market)
-   - Token transfers and approvals
+   - Beets Exchange integration (Balancer Fork) ✓
+   - Basic Silo Finance integration (WETH/USDC market) ✓
+   - Token transfers and approvals ✓
 
 3. Advanced Features (Phase 3)
    - Additional Silo markets
    - Advanced lending features
-   - Liquid staking integration
+   - Liquid staking integration ✓
    - Analytics and monitoring
 
 ## Testing Strategy

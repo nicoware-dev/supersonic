@@ -1,206 +1,101 @@
 # SuperSonic Plugin
 
-A comprehensive plugin for SuperSonic that provides essential DeFi functionality and data integration with Sonic, CoinGecko, DefiLlama, and other critical services. This plugin serves as the core infrastructure for interacting with various DeFi protocols and services on Sonic.
+A comprehensive plugin for interacting with the Sonic blockchain ecosystem, providing essential DeFi functionality and data integration. This plugin enables seamless interaction with Sonic's DeFi protocols, including Beethoven X (Beets), Silo Finance, and various data providers.
 
 ## Features
 
-### Actions
+### Core Actions
 
-1. **Transfer**
-   - Execute token transfers on Sonic
-   - Handle ERC20 and native token transfers
+1. **Basic Operations**
+   - Native S token transfers ✓
+   - ERC20 token transfers ✓
+   - Portfolio tracking and balance management ✓
 
-2. **Swap**
-   - Execute token swaps on Sonic
+2. **Beets DEX Integration**
+   - Add/Remove liquidity for Weighted Pools
+   - Balancer V2 style pool operations
+   - Support for wS-stS pool operations
+   - Flash swap functionality
+
+3. **Beets Liquid Staking**
+   - Staking operations ✓
+   - Reward tracking ✓
+   - Unstaking functionality ✓
+   - Withdrawal operations ✓
+
+4. **Silo Finance Integration**
+   - Deposit functionality ✓
+   - Withdrawal operations ✓
+   - Borrowing capabilities ✓
+   - Repayment operations ✓
+   - Health factor monitoring (Coming soon)
 
 ### Providers
 
-1. **Wallet Provider**
-   - Sonic wallet integration
+1. **Wallet Provider** ✓
+   - Sonic network configuration (Chain ID: 146)
    - Transaction management
-   - Key management
+   - Gas estimation
+   - Balance tracking
+   - Token support
 
-2. **Token Provider**
-   - Token metadata and information
-   - Token balance tracking
-   - Token transfer history
-   - Smart contract interaction
-
-3. **CoinGecko Provider**
+2. **CoinGecko Provider** ✓
    - Real-time cryptocurrency prices
-   - Market data and metrics
    - Token metadata and information
    - Historical price data
+   - Market metrics
+   - Color-coded price changes
+   - Market cap information
 
-4. **DefiLlama Provider**
+3. **DefiLlama Provider** ✓
    - Protocol TVL tracking
-   - Token price feeds
    - DeFi protocol analytics
-   - Market statistics
+   - Chain-specific metrics
+   - Protocol market share calculations
+   - Global DeFi metrics
 
-5. **Trust Score Provider** (Work in progress)
-   - Protocol security analysis
-   - Risk assessment metrics
-   - Security scoring
-   - Vulnerability detection
+## Supported Tokens
 
-6. **Portfolio Provider**
-   - Portfolio tracking and analysis
-   - Performance metrics
-   - Holdings management
-   - Transaction history
+- Native S (Sonic)
+- wS (Wrapped Sonic)
+- stS (Staked Sonic)
+- WETH
+- USDC
+- EURC
+- USDT
 
-7. **Social Provider** (Work in progress)
-   - Social engagement metrics
-   - Community analytics
-   - Social signal tracking
+## Contract Addresses
 
-### Swarm Communication Layer
+### Core Infrastructure
+- Beets Vault V2: `0xBA12222222228d8Ba445958a75a0704d566BF2C8`
+- Beets Vault V3: `0xbA1333333333a1BA1108E8412f11850A5C319bA9`
 
-#### Actions
-- Inter-agent message routing
-- Task delegation
-- State synchronization
-- Resource allocation
-- Consensus management
+### Tokens
+- Wrapped S (wS): `0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38`
+- WETH: `0x50c42dEAcD8Fc9773493ED674b675bE577f2634b`
+- USDC: `0x29219dd400f2Bf60E5a23d13Be72B486D4038894`
 
-#### Providers
-- Agent discovery
-- State management
-- Resource monitoring
-- Network health tracking
-- Message queue management
+## Network Information
 
-#### Evaluators
-- Task completion verification
-- Performance monitoring
-- Resource utilization
-- Network efficiency
-- Communication patterns
+- Chain ID: 146 (0x92)
+- RPC Endpoint: https://rpc.soniclabs.com
+- Block Explorer: https://sonicscan.org/
 
-## Future Development Phase 2
+## Development Status
 
-### Analytics & Metrics Infrastructure
+### Completed Features ✓
+- Basic token operations
+- Wallet integration
+- Price data integration
+- TVL tracking
+- Beets liquid staking
+- Basic Silo lending operations
 
-#### Market Analytics Provider
-- Real-time market data aggregation
-- Cross-protocol analytics
-- Custom metrics computation
-- Historical data analysis
-- Performance benchmarking
-- Market trend detection
-
-#### Social Analytics Provider
-- Multi-platform social listening
-- Sentiment analysis engine
-- Engagement metrics tracking
-- Influencer analytics
-- Content performance tracking
-- Community growth metrics
-
-### DeFi Operations Layer
-
-#### Yield Farming Provider
-- Protocol yield tracking
-- Strategy performance monitoring
-- Risk-adjusted returns calculation
-- Liquidity pool analytics
-- Impermanent loss tracking
-
-#### Trading Provider
-- Order book analytics
-- Market making metrics
-- Position management tracking
-- Trading strategy performance
-- Risk exposure monitoring
-
-### NFT Infrastructure
-
-#### NFT Analytics Provider
-- Collection statistics tracking
-- Floor price monitoring
-- Rarity scoring engine
-- Whale wallet tracking
-- Trading volume analytics
-- Market trend analysis
-
-#### NFT Operations Provider
-- Collection metadata management
-- IPFS integration services
-- Minting configuration
-- Royalty tracking
-- Collection analytics
-
-### Governance & Treasury
-
-#### DAO Provider
-- Treasury analytics
-- Proposal tracking
-- Voting analytics
-- Fund allocation monitoring
-- Governance participation metrics
-
-### Development Tools
-
-#### Smart Contract Provider
-- Contract deployment services
-- Verification automation
-- Security audit integration
-- Parameter configuration
-- Gas optimization
-
-### Actions
-
-#### Analytics Actions
-- Custom metric computation
-- Report generation
-- Alert configuration
-- Dashboard creation
-- Data export
-
-#### Trading Actions
-- Strategy execution
-- Position management
-- Market making
-- Portfolio rebalancing
-- Risk management
-
-#### NFT Actions
-- Collection deployment
-- Metadata management
-- Minting operations
-- Royalty configuration
-- Collection management
-
-#### DAO Actions
-- Proposal creation
-- Vote execution
-- Treasury management
-- Fund allocation
-- Governance participation
-
-### Evaluators
-
-#### Market Evaluators
-- Price trend analysis
-- Volume pattern detection
-- Market sentiment assessment
-- Technical indicator computation
-- Risk-reward profiling
-
-#### Strategy Evaluators
-- Performance measurement
-- Risk assessment
-- Efficiency analysis
-- Cost-benefit analysis
-- Strategy optimization
-
-#### Portfolio Evaluators
-- Risk exposure assessment
-- Performance attribution
-- Diversification analysis
-- Correlation tracking
-- Rebalancing recommendations
+### In Progress
+- Advanced lending features
+- Health factor monitoring
+- Additional market support
+- Enhanced analytics
 
 ## Contributing
 

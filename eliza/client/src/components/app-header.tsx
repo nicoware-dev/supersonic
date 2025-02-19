@@ -24,7 +24,7 @@ export function AppHeader() {
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2">
                     <img src={logo} alt="SuperSonic Logo" className="h-6 w-6" />
-                    <span className="gradient-text font-semibold">SuperSonic</span>
+                    <span className="text-white font-semibold">SuperSonic</span>
                 </Link>
 
                 {/* Mobile Menu Button - Centered */}

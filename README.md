@@ -313,21 +313,36 @@ Interact with the agents with these example prompts:
 ```
 What is Sonic Network?
 ```
-
 ### Web Search
 ```
 Search the web for latest news on Sonic Labs and its L1 Blockchain Ecosystem
 ```
-
-
 ### TVL Metrics
 ```
 Get detailed TVL metrics for Sonic and global DeFi
 ```
+```
+What are the top 5 protocols by TVL in the Sonic ecosystem?
+```
 
-### Price Metrics
+### Price Metrics (CoinGecko)
 ```
 Get prices for ETH, BTC, S, Shadow, Beets and USDC
+```
+
+### Pools Data (GeckoTerminal)
+```
+Show me TVL and Volume of the top pools on Sonic network
+```
+
+### Tokens Provider
+```
+Show me information about wETH and stS tokens
+```
+
+### Market Analysis Provider
+```
+Show me the top gainers and losers in the Sonic network
 ```
 
 ### Wallet Operations
@@ -336,6 +351,20 @@ Show me my Sonic wallet address and S balance
 ```
 ```
 Show my portfolio
+```
+
+### Explorer Provider
+```
+Get info for wallet 0xFC6E877417D30d25AF8300460639e7c2Bc7657C6
+```
+```
+Show me network stats
+```
+```
+Show me the latest blocks
+```
+```
+Show me the latest transactions
 ```
 
 ### Token Transfers
@@ -360,6 +389,16 @@ Swap 0.01 USDC for S
 Swap 0.00001 WETH for USDC
 ```
 
+### Sonic Staking (Beets LST)
+```
+Stake 0.1 S with Beets
+```
+```
+Unstake 0.1 stS from Beets
+```
+```
+Withdraw 0.1 S from Beets
+```
 
 ### Token Lending & Borrowing (Silo Finance) (S and USDC supported)
 ```
@@ -373,6 +412,14 @@ Borrow 0.001 USDC from Silo Finance
 ```
 ```
 Repay 0.0001 USDC to Silo Finance
+```
+
+### Add & Remove Liquidity (Beets DEX) (Work in Progress)
+```
+Add liquidity to Beets wS-stS pool with 0.1 S
+```
+```
+Remove all liquidity from Beets wS-stS pool
 ```
 
 ## 🔍 Important Notes

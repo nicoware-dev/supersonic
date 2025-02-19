@@ -8,6 +8,7 @@ import {
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import type { Provider, IAgentRuntime, Memory, State } from '@elizaos/core';
+import { elizaLogger } from '@elizaos/core';
 import { sonicChain } from "../config/chains";
 
 class WalletProvider {
@@ -45,7 +46,7 @@ class WalletProvider {
             });
             return formatEther(balance);
         } catch (error) {
-            console.error("Error fetching balance:", error);
+            elizaLogger.error("Error fetching balance:", error);
             throw error;
         }
     }
@@ -59,7 +60,7 @@ export function initWalletProvider(runtime: IAgentRuntime): WalletProvider | nul
     try {
         const privateKey = runtime.getSetting("EVM_PRIVATE_KEY");
         if (!privateKey) {
-            console.error("EVM_PRIVATE_KEY is not set");
+            elizaLogger.error("EVM_PRIVATE_KEY is not set");
             return null;
         }
 
@@ -68,7 +69,7 @@ export function initWalletProvider(runtime: IAgentRuntime): WalletProvider | nul
 
         return new WalletProvider(normalizedKey, rpcUrl);
     } catch (error) {
-        console.error("Error initializing wallet provider:", error);
+        elizaLogger.error("Error initializing wallet provider:", error);
         return null;
     }
 }
@@ -134,7 +135,7 @@ export const walletProvider: Provider = {
                 return `Error accessing wallet information: ${error instanceof Error ? error.message : 'Unknown error'}`;
             }
         } catch (error) {
-            console.error("Error in wallet provider:", error);
+            elizaLogger.error("Error in wallet provider:", error);
             return "Error accessing wallet information. Please ensure your configuration is correct.";
         }
     },
