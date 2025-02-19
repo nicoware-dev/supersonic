@@ -199,12 +199,7 @@ Key Silo Components:
 - [✓] Add support for Beets
   - [✓] Integrate Balancer V2 style pools
   - [✓] Add weighted pool support
-  - [✓] Implement flash swaps
-- [ ] Integrate Shadow Exchange (Uniswap V3 compatible) (OPTIONAL)
-  - [ ] Update router contract address
-  - [ ] Modify swap path construction
-  - [ ] Update price impact calculation
-  - [ ] Implement slippage handling
+  - [✓] Implement swaps
 
 
 #### 3.3 Lending Actions
@@ -237,9 +232,9 @@ Key Silo Components:
 
 #### 1.1 DefiLlama Provider Enhancement
 - [✓] Add protocol-specific analytics
-- [ ] Implement yield tracking
-- [ ] Add historical TVL data
-- [ ] Include volume analytics
+- [✓] Implement yield tracking
+- [✓] Add historical TVL data
+- [✓] Include volume analytics
 
 ### 2. New Provider Implementation
 
@@ -250,11 +245,9 @@ Key Silo Components:
 - [✓] Add trading volume analysis
 
 #### 2.2 Blockchain Explorer Provider
-- [ ] Implement transaction tracking
-- [ ] Add contract verification status
-- [ ] Include gas analytics
-- [ ] Add token transfer tracking
-
+- [✓] Show stats for latest blocks
+- [✓] Show account info
+- [✓] Show network stats
 
 #### 2.3 Token Provider
 - [✓] Implement token provider
