@@ -1,8 +1,5 @@
 {
     "buildCommand": "pnpm run build",
     "installCommand": "pnpm install",
-    "framework": "vite",
-    "nodejs": {
-        "version": "23.3.0"
-    }
+    "framework": "vite"
 } 

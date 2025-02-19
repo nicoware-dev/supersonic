@@ -4,7 +4,8 @@
     "version": "0.1.5-alpha.1",
     "type": "module",
     "engines": {
-        "node": "18.x"
+        "node": "23.x",
+        "pnpm": "9.x"
     },
     "scripts": {
         "dev": "vite",
