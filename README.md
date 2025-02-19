@@ -365,7 +365,10 @@ Swap 0.00001 WETH for USDC
 Stake 0.1 S with Beets
 ```
 ```
-Unstake 0.1 S with Beets
+Unstake 0.1 stS from Beets
+```
+```
+Withdraw 0.1 S from Beets
 ```
 
 ### Token Lending & Borrowing (Silo Finance) (S and USDC supported)
