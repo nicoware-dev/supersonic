@@ -313,13 +313,10 @@ Interact with the agents with these example prompts:
 ```
 What is Sonic Network?
 ```
-
 ### Web Search
 ```
 Search the web for latest news on Sonic Labs and its L1 Blockchain Ecosystem
 ```
-
-
 ### TVL Metrics
 ```
 Get detailed TVL metrics for Sonic and global DeFi
@@ -403,14 +400,6 @@ Unstake 0.1 stS from Beets
 Withdraw 0.1 S from Beets
 ```
 
-### Add & Remove Liquidity (Beets DEX)
-```
-Add liquidity to Beets wS-stS pool with 0.1 S
-```
-```
-Remove all liquidity from Beets wS-stS pool
-```
-
 ### Token Lending & Borrowing (Silo Finance) (S and USDC supported)
 ```
 Deposit 0.1 S to Silo Finance
@@ -423,6 +412,14 @@ Borrow 0.001 USDC from Silo Finance
 ```
 ```
 Repay 0.0001 USDC to Silo Finance
+```
+
+### Add & Remove Liquidity (Beets DEX) (Work in Progress)
+```
+Add liquidity to Beets wS-stS pool with 0.1 S
+```
+```
+Remove all liquidity from Beets wS-stS pool
 ```
 
 ## 🔍 Important Notes
