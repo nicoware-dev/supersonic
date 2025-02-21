@@ -333,6 +333,87 @@ export const claim: Action = {
                 type: "function"
             }] as const;
 
+            // Add detailed parameter validation
+            const validateParameters = () => {
+                // Validate debridgeId format
+                if (!submission.debridgeId?.startsWith('0x') || submission.debridgeId.length !== 66) {
+                    throw new Error(`Invalid debridgeId format: ${submission.debridgeId}`);
+                }
+
+                // Validate amount is a positive number
+                const amount = BigInt(submission.amount);
+                if (amount <= 0n) {
+                    throw new Error(`Invalid amount: ${submission.amount}`);
+                }
+
+                // Validate chainIdFrom is Sonic's chain ID
+                const chainIdFrom = BigInt(submission.originChainId);
+                if (chainIdFrom !== 146n) {
+                    throw new Error(`Invalid chainIdFrom: ${chainIdFrom}, expected: 146`);
+                }
+
+                // Validate receiver address format
+                if (!submission.receiver?.startsWith('0x') || submission.receiver.length !== 42) {
+                    throw new Error(`Invalid receiver address format: ${submission.receiver}`);
+                }
+
+                // Validate nonce is a positive number
+                const nonce = BigInt(submission.nonce);
+                if (nonce < 0n) {
+                    throw new Error(`Invalid nonce: ${submission.nonce}`);
+                }
+
+                // Validate signatures
+                if (!claimArgs[5]?.startsWith('0x')) {
+                    throw new Error(`Invalid signatures format: ${claimArgs[5]}`);
+                }
+
+                return true;
+            };
+
+            try {
+                validateParameters();
+            } catch (error) {
+                console.error("Parameter validation failed:", error);
+                callback?.({
+                    text: `Parameter validation failed: ${error instanceof Error ? error.message : "Unknown error"}. This indicates a mismatch in the claim parameters.`,
+                });
+                return false;
+            }
+
+            // Log parameters in a more readable format for debugging
+            console.log("Detailed claim parameters:");
+            console.log("1. debridgeId:", {
+                value: submission.debridgeId,
+                type: typeof submission.debridgeId,
+                length: submission.debridgeId.length
+            });
+            console.log("2. amount:", {
+                value: submission.amount,
+                type: typeof submission.amount,
+                asBigInt: BigInt(submission.amount).toString()
+            });
+            console.log("3. chainIdFrom:", {
+                value: submission.originChainId,
+                type: typeof submission.originChainId,
+                asBigInt: BigInt(submission.originChainId).toString()
+            });
+            console.log("4. receiver:", {
+                value: submission.receiver,
+                type: typeof submission.receiver,
+                length: submission.receiver.length
+            });
+            console.log("5. nonce:", {
+                value: submission.nonce,
+                type: typeof submission.nonce,
+                asBigInt: BigInt(submission.nonce).toString()
+            });
+            console.log("6. signatures:", {
+                value: claimArgs[5],
+                type: typeof claimArgs[5],
+                length: claimArgs[5].length
+            });
+
             // Prepare transaction data for gas estimation
             const txRequest = {
                 account: provider.getAccount() as Account,
@@ -340,41 +421,80 @@ export const claim: Action = {
                 abi: claimAbi,
                 functionName: 'claim' as const,
                 args: [
-                    submission.debridgeId as `0x${string}`,
-                    BigInt(submission.amount),
-                    BigInt(submission.originChainId),
-                    submission.receiver as `0x${string}`,
-                    BigInt(submission.nonce),
-                    claimArgs[5] as `0x${string}`,
-                    "0x" as `0x${string}`,
+                    // Ensure proper type conversion for each parameter
+                    `0x${submission.debridgeId.replace('0x', '')}` as `0x${string}`, // Clean and normalize debridgeId
+                    BigInt(submission.amount.toString()), // Ensure proper BigInt conversion
+                    BigInt(submission.originChainId.toString()), // Ensure proper BigInt conversion
+                    `0x${submission.receiver.replace('0x', '')}` as `0x${string}`, // Clean and normalize address
+                    BigInt(submission.nonce.toString()), // Ensure proper BigInt conversion
+                    `0x${claimArgs[5].replace('0x', '')}` as `0x${string}`, // Clean and normalize signatures
+                    "0x" as `0x${string}`, // Empty autoParams
                 ] as const,
             };
+
+            // Log the final transaction request parameters
+            console.log("Final transaction request parameters:", {
+                debridgeId: txRequest.args[0],
+                amount: txRequest.args[1].toString(),
+                chainIdFrom: txRequest.args[2].toString(),
+                receiver: txRequest.args[3],
+                nonce: txRequest.args[4].toString(),
+                signatures: txRequest.args[5],
+                autoParams: txRequest.args[6]
+            });
+
+            // Try to simulate the transaction first
+            try {
+                const simulationResult = await publicClient.simulateContract({
+                    ...txRequest,
+                    account: provider.getAccount() as Account,
+                });
+                console.log("Simulation successful:", simulationResult);
+            } catch (error) {
+                console.error("Simulation failed:", error);
+                const errorMessage = error instanceof Error ? error.message : "Unknown error";
+                
+                // Remove the incorrect error handling for 0x76b77bf2
+                // Instead, log more details about the error
+                console.log("Detailed error information:", {
+                    message: errorMessage,
+                    args: txRequest.args,
+                    error
+                });
+
+                callback?.({
+                    text: `Transaction simulation failed. This might be due to:
+1. Network congestion - try again in a few minutes
+2. Gas price fluctuations - we'll adjust gas prices automatically
+3. Contract state changes - we'll verify the claim status
+
+Please try the claim again. If the issue persists, please share the error message.`,
+                });
+                return false;
+            }
 
             // Get current fee data with safe minimums
             const feeData = await publicClient.estimateFeesPerGas();
             
-            // Ensure we have reasonable gas prices for Arbitrum
-            const baseFee = feeData?.maxFeePerGas || 25000000n; // 0.025 gwei default
-            const maxFeePerGas = baseFee * 2n; // Double the base fee to ensure acceptance
-            const maxPriorityFeePerGas = baseFee / 2n; // Half of base fee for priority
-
-            // Use a fixed gas limit that we know works for claim transactions
-            const gasLimit = 1000000n; // 1M gas limit which should be sufficient
+            // Use much higher gas prices for Arbitrum
+            const maxFeePerGas = 500000000n; // 0.5 gwei
+            const maxPriorityFeePerGas = 100000000n; // 0.1 gwei
+            const gasLimit = 2000000n; // 2M gas
 
             console.log("Using gas prices:", {
-                baseFee: baseFee.toString(),
                 maxFeePerGas: maxFeePerGas.toString(),
                 maxPriorityFeePerGas: maxPriorityFeePerGas.toString(),
                 gasLimit: gasLimit.toString()
             });
 
-            // Execute claim transaction with fixed gas limit
+            // Execute claim transaction
             const hash = await arbitrumWalletClient.writeContract({
                 ...txRequest,
                 gas: gasLimit,
                 maxFeePerGas,
                 maxPriorityFeePerGas,
                 type: 'eip1559' as const,
+                chain: arbitrum
             });
 
             callback?.({
@@ -393,17 +513,19 @@ Note: The token will be automatically added to your wallet during the claim tran
         } catch (error) {
             console.error("Claim failed:", error);
             
-            // Check for specific error signatures
+            // Update error handling to be more informative
             const errorMessage = error instanceof Error ? error.message : "Unknown error";
-            if (errorMessage.includes("0x76b77bf2")) {
-                callback?.({
-                    text: "This claim has already been executed on Arbitrum. The tokens should already be in your wallet.",
-                });
-                return false;
-            }
-
             callback?.({
-                text: `Claim operation failed: ${errorMessage}. Please wait a few minutes and try again.`,
+                text: `Claim operation failed. This could be due to:
+1. Network conditions - try again in a few minutes
+2. Gas price changes - we'll adjust automatically
+3. Contract state - verify on deBridge explorer that the claim is ready
+
+Error details: ${errorMessage}
+
+Please try again and if the issue persists:
+1. Double check the claim status on deBridge explorer
+2. Share the new error message if you get a different error`,
             });
             return false;
         }
