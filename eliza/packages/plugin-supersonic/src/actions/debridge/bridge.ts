@@ -2,6 +2,7 @@ import type { Action, Memory } from "@elizaos/core";
 import {
     parseUnits,
     createPublicClient,
+    createWalletClient,
     http,
     type Address,
     encodeFunctionData,
@@ -9,7 +10,7 @@ import {
     formatEther,
     type Account,
 } from "viem";
-import { sonicChain, arbitrumChain } from "../../config/chains";
+import { sonicChain } from "../../config/chains";
 import { initWalletProvider } from "../../providers/wallet";
 import { TOKENS, getTokenBySymbol, isERC20Token, type TokenSymbol, type ERC20TokenConfig } from "../../config/tokens";
 
@@ -18,59 +19,36 @@ const DEBRIDGE_CONTRACTS = {
     // Main bridge contracts
     SONIC: {
         DeBridgeGate: "0x43de2d77bf8027e25dbd179b491e8d64f38398aa" as const,
-        DeBridgeToken: "0xc1656b63d9eeba6d114f6be19565177893e5bcbf" as const,
-        CallProxy: "0x8a0c79f5532f3b2a16ad1e4282a5daf81928a824" as const,
     },
     ARBITRUM: {
         DeBridgeGate: "0x43dE2d77BF8027e25dBD179B491e8d64f38398aA" as const,
-        DeBridgeToken: "0xf8A2902c0a5f817F5e22C82f453538d3f0734C2b" as const,
-        CallProxy: "0x8a0C79F5532f3b2a16AD1E4282A5DAF81928a824" as const,
     }
 } as const;
 
 // Chain IDs for deBridge
 const CHAIN_IDS = {
-    SONIC: 1234, // Replace with actual Sonic chain ID
-    ARBITRUM: 42161,
+    SONIC: 146n,
+    ARBITRUM: 42161n,
 } as const;
 
-// DeBridgeGate ABI (minimal required functions)
+// Fixed bridge fee in S
+const BRIDGE_FEE = parseEther("1.0");
+
+// DeBridgeGate Implementation ABI
 const DEBRIDGE_GATE_ABI = [{
     inputs: [
-        { name: "tokenAddress", type: "address" },
-        { name: "amount", type: "uint256" },
-        { name: "chainIdTo", type: "uint256" },
-        { name: "receiver", type: "bytes" },
-        { name: "permit", type: "bytes" },
-        { name: "useAssetFee", type: "bool" },
-        { name: "referralCode", type: "uint32" },
-        { name: "autoParams", type: "bytes" }
+        { name: "_tokenAddress", type: "address" },
+        { name: "_amount", type: "uint256" },
+        { name: "_chainIdTo", type: "uint256" },
+        { name: "_receiver", type: "bytes" },
+        { name: "_permit", type: "bytes" },
+        { name: "_useAssetFee", type: "bool" },
+        { name: "_referralCode", type: "uint32" },
+        { name: "_autoParams", type: "bytes" }
     ],
     name: "send",
-    outputs: [{ name: "debridgeId", type: "bytes32" }],
+    outputs: [],
     stateMutability: "payable",
-    type: "function"
-}, {
-    inputs: [
-        { name: "tokenAddress", type: "address" },
-        { name: "chainIdTo", type: "uint256" }
-    ],
-    name: "getDebridgeId",
-    outputs: [{ name: "", type: "bytes32" }],
-    stateMutability: "view",
-    type: "function"
-}, {
-    inputs: [
-        { name: "debridgeId", type: "bytes32" },
-        { name: "amount", type: "uint256" },
-        { name: "chainIdTo", type: "uint256" }
-    ],
-    name: "getSubmissionFee",
-    outputs: [
-        { name: "nativeFee", type: "uint256" },
-        { name: "executionFee", type: "uint256" }
-    ],
-    stateMutability: "view",
     type: "function"
 }] as const;
 
@@ -109,16 +87,16 @@ type SupportedChain = typeof SUPPORTED_CHAINS[number];
 
 export const bridge: Action = {
     name: "BRIDGE_TOKENS",
-    description: "Bridge tokens from Sonic to other chains using deBridge",
+    description: "Bridge tokens from Sonic to other chains using deBridge (costs 1 S as fixed fee)",
     examples: [
         [
             {
                 user: "user1",
                 content: {
-                    text: "Bridge 0.1 S to Arbitrum",
+                    text: "Bridge 100 MARI to Arbitrum",
                     entities: {
-                        amount: "0.1",
-                        token: "S",
+                        amount: "100",
+                        token: "MARI",
                         toChain: "arbitrum"
                     }
                 }
@@ -126,14 +104,14 @@ export const bridge: Action = {
             {
                 user: "assistant",
                 content: {
-                    text: "Initiating bridge transaction of 0.1 S to Arbitrum...",
+                    text: "Initiating bridge transaction of 100 MARI to Arbitrum (fee: 1 S)...",
                 }
             }
         ]
     ],
     handler: async (runtime, message: Memory, _state, _options, callback) => {
         try {
-            // Initialize wallet provider
+            // Initialize provider
             const provider = initWalletProvider(runtime);
             if (!provider) {
                 callback?.({
@@ -156,186 +134,134 @@ export const bridge: Action = {
 
             const [, amount, tokenSymbol, toChain] = content;
             const token = getTokenBySymbol(tokenSymbol.toUpperCase() as TokenSymbol);
-            const destinationChain = toChain.toLowerCase() as SupportedChain;
+            const destinationChain = toChain.toLowerCase();
 
             // Validate token and chain
-            if (!token) {
+            if (!token || !isERC20Token(token)) {
                 callback?.({
-                    text: "Invalid token symbol. Please check supported tokens.",
+                    text: "Invalid or unsupported token. Only ERC20 tokens are supported for bridging.",
                 });
                 return false;
             }
 
-            if (!SUPPORTED_CHAINS.includes(destinationChain)) {
+            if (destinationChain !== 'arbitrum') {
                 callback?.({
-                    text: `Unsupported destination chain. Supported chains: ${SUPPORTED_CHAINS.join(", ")}`,
+                    text: "Only bridging to Arbitrum is supported at the moment.",
                 });
                 return false;
             }
 
             // Send initial confirmation
             callback?.({
-                text: `Initiating bridge transaction of ${amount} ${token.symbol} to ${destinationChain}...`,
+                text: `Initiating bridge transaction of ${amount} ${token.symbol} to Arbitrum (fee: 1 S)...`,
             });
 
-            // Initialize clients with chain configuration
+            // Get clients from provider
             const walletClient = provider.getWalletClient();
             const publicClient = createPublicClient({
                 chain: sonicChain,
                 transport: http()
             });
 
-            // Parse amount with correct decimals
+            // Parse amount
             const amountInWei = parseUnits(amount, token.decimals);
 
-            // Get the receiver address (same as sender address on destination chain)
+            // Get the receiver address
             const receiver = provider.getAddress();
 
-            // Calculate bridge fees
-            const debridgeId = await publicClient.readContract({
+            // Check token balance
+            const balance = await publicClient.readContract({
+                address: token.address,
+                abi: ERC20_ABI,
+                functionName: 'balanceOf',
+                args: [receiver as Address]
+            });
+
+            if (balance < amountInWei) {
+                callback?.({
+                    text: `Insufficient ${token.symbol} balance. You need ${amount} ${token.symbol}.`,
+                });
+                return false;
+            }
+
+            // Check S balance for fixed fee
+            const nativeBalance = await publicClient.getBalance({
+                address: receiver as Address
+            });
+
+            if (nativeBalance < BRIDGE_FEE) {
+                callback?.({
+                    text: `Insufficient S balance for bridge fee. You need 1 S for the bridge fee.`,
+                });
+                return false;
+            }
+
+            // Check and handle token approval
+            const allowance = await publicClient.readContract({
+                address: token.address,
+                abi: ERC20_ABI,
+                functionName: 'allowance',
+                args: [receiver as Address, DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address]
+            });
+
+            if (allowance < amountInWei) {
+                console.log(`Approving ${token.symbol} for bridge...`);
+                const approveHash = await walletClient.writeContract({
+                    address: token.address,
+                    abi: ERC20_ABI,
+                    functionName: 'approve',
+                    args: [DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address, amountInWei],
+                    account: walletClient.account as Account,
+                    chain: null
+                });
+
+                await publicClient.waitForTransactionReceipt({
+                    hash: approveHash,
+                    timeout: 60000
+                });
+            }
+
+            // Execute bridge transaction
+            const hash = await walletClient.writeContract({
                 address: DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address,
                 abi: DEBRIDGE_GATE_ABI,
-                functionName: 'getDebridgeId',
+                functionName: 'send',
                 args: [
-                    token.type === 'native' ? TOKENS.WS.address : (token as ERC20TokenConfig).address,
-                    BigInt(CHAIN_IDS.ARBITRUM)
-                ]
+                    token.address,
+                    amountInWei,
+                    CHAIN_IDS.ARBITRUM,
+                    `0x${receiver.slice(2)}` as `0x${string}`,
+                    "0x" as `0x${string}`,
+                    false,
+                    0,
+                    "0x" as `0x${string}`,
+                ],
+                account: walletClient.account as Account,
+                chain: null,
+                value: BRIDGE_FEE,
             });
-
-            const [nativeFee, executionFee] = await publicClient.readContract({
-                address: DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address,
-                abi: DEBRIDGE_GATE_ABI,
-                functionName: 'getSubmissionFee',
-                args: [debridgeId, amountInWei, BigInt(CHAIN_IDS.ARBITRUM)]
-            });
-
-            const totalFee = nativeFee + executionFee;
-
-            // Handle native token (S)
-            if (token.type === 'native') {
-                // Check if user has enough balance including fees
-                const balance = await publicClient.getBalance({
-                    address: receiver as Address
-                });
-
-                if (balance < amountInWei + totalFee) {
-                    callback?.({
-                        text: `Insufficient balance. You need ${amount} ${token.symbol} plus ${formatEther(totalFee)} S for fees.`,
-                    });
-                    return false;
-                }
-
-                // Execute bridge transaction
-                const hash = await walletClient.writeContract({
-                    address: DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address,
-                    abi: DEBRIDGE_GATE_ABI,
-                    functionName: 'send',
-                    args: [
-                        TOKENS.WS.address,
-                        amountInWei,
-                        BigInt(CHAIN_IDS.ARBITRUM),
-                        `0x${receiver.slice(2)}`,
-                        "0x" as `0x${string}`,
-                        false,
-                        0,
-                        "0x" as `0x${string}`,
-                    ],
-                    account: walletClient.account as Account,
-                    value: amountInWei + totalFee,
-                });
-
-                callback?.({
-                    text: `Successfully initiated bridge transaction!\nAmount: ${amount} ${token.symbol}\nTo: ${destinationChain}\nTransaction Hash: ${hash}\nView on Explorer: https://sonicscan.org/tx/${hash}`,
-                    content: { hash },
-                });
-
-                return true;
-            }
-
-            // Handle ERC20 tokens
-            if (isERC20Token(token)) {
-                // Check token balance
-                const balance = await publicClient.readContract({
-                    address: token.address,
-                    abi: ERC20_ABI,
-                    functionName: 'balanceOf',
-                    args: [receiver as Address]
-                });
-
-                if (balance < amountInWei) {
-                    callback?.({
-                        text: `Insufficient ${token.symbol} balance. You need at least ${amount} ${token.symbol}.`,
-                    });
-                    return false;
-                }
-
-                // Check native balance for fees
-                const nativeBalance = await publicClient.getBalance({
-                    address: receiver as Address
-                });
-
-                if (nativeBalance < totalFee) {
-                    callback?.({
-                        text: `Insufficient S balance for fees. You need ${formatEther(totalFee)} S for transaction fees.`,
-                    });
-                    return false;
-                }
-
-                // Check and handle token approval
-                const allowance = await publicClient.readContract({
-                    address: token.address,
-                    abi: ERC20_ABI,
-                    functionName: 'allowance',
-                    args: [receiver as Address, DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address]
-                });
-
-                if (allowance < amountInWei) {
-                    console.log(`Approving ${token.symbol} for bridge...`);
-                    const approveHash = await walletClient.writeContract({
-                        address: token.address,
-                        abi: ERC20_ABI,
-                        functionName: 'approve',
-                        args: [DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address, amountInWei],
-                        account: walletClient.account as Account
-                    });
-
-                    await publicClient.waitForTransactionReceipt({
-                        hash: approveHash,
-                        timeout: 60000
-                    });
-                }
-
-                // Execute bridge transaction
-                const hash = await walletClient.writeContract({
-                    address: DEBRIDGE_CONTRACTS.SONIC.DeBridgeGate as Address,
-                    abi: DEBRIDGE_GATE_ABI,
-                    functionName: 'send',
-                    args: [
-                        token.address,
-                        amountInWei,
-                        BigInt(CHAIN_IDS.ARBITRUM),
-                        `0x${receiver.slice(2)}`,
-                        "0x" as `0x${string}`,
-                        false,
-                        0,
-                        "0x" as `0x${string}`,
-                    ],
-                    account: walletClient.account as Account,
-                    value: totalFee,
-                });
-
-                callback?.({
-                    text: `Successfully initiated bridge transaction!\nAmount: ${amount} ${token.symbol}\nTo: ${destinationChain}\nTransaction Hash: ${hash}\nView on Explorer: https://sonicscan.org/tx/${hash}`,
-                    content: { hash },
-                });
-
-                return true;
-            }
 
             callback?.({
-                text: "Unsupported token type.",
+                text: `Successfully initiated bridge transaction!
+Amount: ${amount} ${token.symbol}
+To: Arbitrum
+Fee: 1 S
+Transaction Hash: ${hash}
+
+View on Sonic Explorer:
+https://sonicscan.org/tx/${hash}
+
+Claim your tokens on Arbitrum:
+https://app.debridge.finance/transaction?tx=${hash}&chainId=100000014
+
+Important Notes:
+- Wait 10-20 minutes for the transaction to be confirmed
+- You'll need some ETH on Arbitrum for the claim transaction
+- Connect the same wallet address to claim your tokens`,
+                content: { hash },
             });
-            return false;
+
+            return true;
         } catch (error) {
             console.error("Bridge failed:", error);
             callback?.({
@@ -347,7 +273,7 @@ export const bridge: Action = {
     validate: async () => true,
     similes: [
         "like sending tokens across different blockchains",
-        "like moving assets between Sonic and other networks",
-        "like using a blockchain bridge to transfer tokens"
+        "like using deBridge to transfer tokens to Arbitrum",
+        "like bridging tokens with a fixed 1 S fee"
     ],
 };

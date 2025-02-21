@@ -90,6 +90,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 ### Core Features
 
 - 💬 Natural language processing
+- 🔍 RAG (Retrieval-Augmented Generation) Knowledge Base
 - 🤖 Multi-Agent System (MAS): 18 AI Agents included.
 - 🔅 Integrated Website & Web App
 - 🛠️ Full-featured Discord, Twitter and Telegram connectors
@@ -99,6 +100,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - 💾 Retrievable memory and document store
 - 💰 Real-time prices using CoinGecko API
 - 🚀 Real-time TVL using DefiLlama API
+- 📊 Real-time Pools data using GeckoTerminal
 - 📝 Text generation and analysis
 - 🎨 Image generation and description
 - 🗣️ Speech synthesis and recognition
@@ -112,18 +114,20 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - 💸 Token transfers (S, USDT, and custom tokens)
 - 💱 Token swapping on Beets DEX
 - 🔍 Transaction tracking
-- 💸 Lending on Silo Finance
-- 💸 Borrowing on Silo Finance
-- 💧 Add and Remove Liquidity on Beets DEX (WIP)
-
+- 💸 Lending & Borrowing on Silo Finance
+- 🌐 Bridge tokens using deBridge
+- 💧 LiquidStaking on Beets LST
+- 🌾 Yield Farming on Beets DEX (WIP)
 
 ### 🖥️ Web App Features
 - 🚀 Landing page
+- 🎨 Modern, responsive design
 - 📄 Agents Directory
 - 🤖 Chat with Agent Swarm through web interface
 - 👛 Sonic wallet connector (MetaMask)
-- 📊 Portfolio & Analytics dashboard
-- 🎨 Modern, responsive design
+- 📊 Portfolio & Analytics dashboard (WIP)
+- 📝 Transaction History (TBD)
+- 🌐 Token Gating (TBD)
 
 <div align="center">
   <img src="assets/WebApp.png" alt="SuperSonic Client Interface" width="800"/>
@@ -195,43 +199,6 @@ While self-hosting is a DIY approach, we provide:
 
 For detailed service descriptions and future offerings, see our [services documentation](docs/services.md) and [business plan](docs/business-plan.md).
 
-#### 🚀 Starter Pack (Free)
-- Basic Metrics Agent access
-- Basic Sonic Expert Advisor
-- Limited daily queries
-
-#### 💎 DeFi Trader Pack
-- Includes:
-  - Private Coordinator Agent
-  - Private Trading Agent
-  - Private Wallet Agent
-  - Premium Metrics Agent
-  - Alpha Agent
-  - Analyst Agent
-
-#### 📣 Social Influencer Pack
-- Includes:
-  - KOL Agent
-  - Alpha Agent
-  - NFTs Agent
-  - Premium Metrics Agent
-
-#### 👨‍💻 Developer Pack
-- Includes:
-  - Token Deployer
-  - NFT Deployer
-  - Private Wallet Agent
-  - Technical Support
-  - Custom Development Hours
-
-#### 🏢 Enterprise Pack
-- Includes:
-  - All Private Agents
-  - Custom Development
-  - White-label Options
-  - 24/7 Support
-  - Custom SLAs
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -287,7 +254,7 @@ TWITTER_EMAIL=                 # Twitter email
 pnpm build
 
 # Start a single agent (Recommended for testing)
-pnpm start --characters="characters/demo1-agent.character.json"
+pnpm start --characters="characters/demo-agent.character.json"
 
 # Start demo agents (5)
 pnpm start --characters="characters/demo-agent.character.json,characters/metrics-agent.character.json,characters/sales-agent.character.json,characters/meme-agent.character.json,characters/sonic-expert-agent.character.json"
@@ -423,6 +390,15 @@ Add liquidity to Beets wS-stS pool with 0.1 S
 ```
 Remove all liquidity from Beets wS-stS pool
 ```
+
+### Bridge Tokens (deBridge) - (WIP: Only token bridges to Arbitrum are supported)
+```
+Bridge 1 USDC to Arbitrum
+```
+```
+Claim 0x711b9d0fa67c42ba8ef118e83b1bdd65bfda972dff5da71adbffacd8b1f9920a
+```
+
 
 ## 🔍 Important Notes
 
