@@ -64,7 +64,7 @@ SuperSonic employs a modular architecture with 18 specialized agents across thre
    - Predictions Agent (Coming Soon)
 
 3. **Private Agents** (Custom Deployments)
-   - Coordinator Agent
+   - Coordinator Agent (n8n-based orchestration with voice/text interface via Telegram)
    - DeFi Agent
    - Trading Agent
    - Wallet Agent

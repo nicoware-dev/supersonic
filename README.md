@@ -90,6 +90,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 ### Core Features
 
 - 💬 Natural language processing
+- 🔍 RAG (Retrieval-Augmented Generation) Knowledge Base
 - 🤖 Multi-Agent System (MAS): 18 AI Agents included.
 - 🔅 Integrated Website & Web App
 - 🛠️ Full-featured Discord, Twitter and Telegram connectors
@@ -99,6 +100,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - 💾 Retrievable memory and document store
 - 💰 Real-time prices using CoinGecko API
 - 🚀 Real-time TVL using DefiLlama API
+- 📊 Real-time Pools data using GeckoTerminal
 - 📝 Text generation and analysis
 - 🎨 Image generation and description
 - 🗣️ Speech synthesis and recognition
@@ -112,18 +114,20 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - 💸 Token transfers (S, USDT, and custom tokens)
 - 💱 Token swapping on Beets DEX
 - 🔍 Transaction tracking
-- 💸 Lending on Silo Finance
-- 💸 Borrowing on Silo Finance
-- 💧 Add and Remove Liquidity on Beets DEX (WIP)
-
+- 💸 Lending & Borrowing on Silo Finance
+- 🌐 Bridge tokens using deBridge
+- 💧 LiquidStaking on Beets LST
+- 🌾 Yield Farming on Beets DEX (WIP)
 
 ### 🖥️ Web App Features
 - 🚀 Landing page
+- 🎨 Modern, responsive design
 - 📄 Agents Directory
 - 🤖 Chat with Agent Swarm through web interface
 - 👛 Sonic wallet connector (MetaMask)
-- 📊 Portfolio & Analytics dashboard
-- 🎨 Modern, responsive design
+- 📊 Portfolio & Analytics dashboard (WIP)
+- 📝 Transaction History (TBD)
+- 🌐 Token Gating (TBD)
 
 <div align="center">
   <img src="assets/WebApp.png" alt="SuperSonic Client Interface" width="800"/>
@@ -139,6 +143,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - Typescript
 - Python
 - NodeJS
+- n8n (Workflow Automation)
 
 
 ### 🤖 Agent Categories
@@ -159,10 +164,10 @@ For complete details about each agent's capabilities and use cases, see our [age
 9. 📝 Token Deployer: Token and liquidity pool deployment
 10. 🎨 NFT Deployer: NFT Collection deployment
 11. 🔷 Sonic Expert: Documentation, resources, tips and advice for Sonic users and devs
-12. �� Predictions Agent: Trend analysis and predictions
+12. 🎮 Predictions Agent: Trend analysis and predictions
 
 #### 🔒 Private Agents (Custom Deployments)
-13. 🎮 Coordinator Agent: Task orchestration and management. One agent to rule them all.
+13. 🎨 Coordinator Agent: Advanced orchestration system implemented in n8n for multi-agent operations. Features voice and text interactions via Telegram, with the ability to delegate tasks to specialized agents across different frameworks.
 14. 💱 DeFi Agent: Manages DeFi operations (Staking, Lending, Borrowing, Yield Farming, etc.)
 15. 📈 Trading Agent: Manages trading operations (Swaps, position management, rebalancing, strategies, etc.)
 16. 👛 Wallet Agent: Manages Sonic wallet operations (Transfers, Signatures, etc.)
@@ -194,43 +199,6 @@ While self-hosting is a DIY approach, we provide:
 
 For detailed service descriptions and future offerings, see our [services documentation](docs/services.md) and [business plan](docs/business-plan.md).
 
-#### 🚀 Starter Pack (Free)
-- Basic Metrics Agent access
-- Basic Sonic Expert Advisor
-- Limited daily queries
-
-#### 💎 DeFi Trader Pack
-- Includes:
-  - Private Coordinator Agent
-  - Private Trading Agent
-  - Private Wallet Agent
-  - Premium Metrics Agent
-  - Alpha Agent
-  - Analyst Agent
-
-#### 📣 Social Influencer Pack
-- Includes:
-  - KOL Agent
-  - Alpha Agent
-  - NFTs Agent
-  - Premium Metrics Agent
-
-#### 👨‍💻 Developer Pack
-- Includes:
-  - Token Deployer
-  - NFT Deployer
-  - Private Wallet Agent
-  - Technical Support
-  - Custom Development Hours
-
-#### 🏢 Enterprise Pack
-- Includes:
-  - All Private Agents
-  - Custom Development
-  - White-label Options
-  - 24/7 Support
-  - Custom SLAs
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -239,6 +207,7 @@ For detailed service descriptions and future offerings, see our [services docume
 - [Node.js 23+](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [Git](https://git-scm.com/downloads)
 - [pnpm](https://pnpm.io/installation)
+- [n8n](https://docs.n8n.io/getting-started/installation/) (Required for Coordinator Agent)
 
 > **Note for Windows Users:** [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install-manual) and [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/) are required.
 
@@ -285,7 +254,7 @@ TWITTER_EMAIL=                 # Twitter email
 pnpm build
 
 # Start a single agent (Recommended for testing)
-pnpm start --characters="characters/demo1-agent.character.json"
+pnpm start --characters="characters/demo-agent.character.json"
 
 # Start demo agents (5)
 pnpm start --characters="characters/demo-agent.character.json,characters/metrics-agent.character.json,characters/sales-agent.character.json,characters/meme-agent.character.json,characters/sonic-expert-agent.character.json"
@@ -422,6 +391,15 @@ Add liquidity to Beets wS-stS pool with 0.1 S
 Remove all liquidity from Beets wS-stS pool
 ```
 
+### Bridge Tokens (deBridge) - (WIP: Only token bridges to Arbitrum are supported)
+```
+Bridge 1 USDC to Arbitrum
+```
+```
+Claim 0x711b9d0fa67c42ba8ef118e83b1bdd65bfda972dff5da71adbffacd8b1f9920a
+```
+
+
 ## 🔍 Important Notes
 
 - Ensure you have sufficient funds for transaction fees.
@@ -473,6 +451,11 @@ eliza/                                # Eliza project
   │   │   ├── types/        
   │   │   └── utils/        
   └── client/                         # Custom Web App
+n8n-workflows/                       # n8n workflow configurations
+  ├── coordinator-agent.json         # Main coordinator agent workflow
+  ├── eliza-agent-tool.json         # Eliza agent integration
+  ├── COORDINATOR_SYSTEM.md         # Coordinator system documentation
+  └── other/                        # Additional workflow configurations
 ```
 
 ## 🤝 Contributing

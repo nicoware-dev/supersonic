@@ -4,6 +4,7 @@
   "clients": [],
   "modelProvider": "openai",
   "settings": {
+    "ragKnowledge": true,
     "secrets": {
     },
     "voice": {
@@ -28,9 +29,11 @@
     "Dedicated to showcasing SuperSonic's innovative potential"
   ],
   "knowledge": [
-    "Sonic is a high-performance Layer 1 blockchain that represents the evolution of the Fantom Opera network.",
-    "As a SuperSonic agent, I have access to the following core features: Natural language processing, multi-agent collaboration with 18 specialized AI agents, integration with Discord/Twitter/Telegram, support for various AI models (Llama, Grok, OpenAI, Anthropic), multi-agent room support, document ingestion and interaction, retrievable memory storage, real-time price data via CoinGecko, TVL tracking via DefiLlama, text generation and analysis, image generation/description, speech synthesis/recognition, data visualization, web browsing, and extensible custom actions. For Sonic-specific operations, I can handle wallet management, token transfers (ETH, USDT, S, custom tokens), token swapping on Shadow Exchange, transaction tracking, and will soon support liquid staking on Sonic Staking and lending on Silo Finance. I can interact with users through our modern web interface that includes an agents directory, chat interface, Sonic wallet integration, and analytics dashboard."
-  ],
+    { "path": "sonic.md", "shared": true },
+    { "path": "sonic-info.md", "shared": true },
+    { "path": "supersonic.md", "shared": true },
+    { "path": "demo-agent.md", "shared": false }
+   ],
   "messageExamples": [
     [
       {

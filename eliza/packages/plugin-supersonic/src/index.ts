@@ -19,6 +19,8 @@ import { geckoTerminalProvider } from "./providers/geckoterminal";
 import { tokensProvider } from "./providers/tokens";
 import { marketAnalysisProvider } from "./providers/marketAnalysis";
 import { explorerProvider } from "./providers/explorer";
+import { bridge } from "./actions/debridge/bridge";
+import { claim } from "./actions/debridge/claim";
 
 export const supersonicPlugin: Plugin = {
     name: "supersonic",
@@ -35,7 +37,9 @@ export const supersonicPlugin: Plugin = {
         stake,
         unstake,
         withdrawBeetsLst,
-        addLiquidity
+        addLiquidity,
+        bridge,
+        claim
     ],
     evaluators: [],
     providers: [
@@ -50,4 +54,9 @@ export const supersonicPlugin: Plugin = {
 };
 
 export default supersonicPlugin;
+
+export const actions = {
+    BRIDGE_TOKENS: bridge,
+    CLAIM_BRIDGED_TOKENS: claim,
+} as const;
 
