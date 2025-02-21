@@ -12,16 +12,25 @@ import elizaos from "../assets/logos-ext/elizaos.svg";
 import beets from "../assets/logos-ext/beets.svg";
 import soniclabs from "../assets/logos-ext/sonic.svg";
 import silo from "../assets/logos-ext/silo.svg";
+import geckoterminal from "../assets/logos-ext/geckoterminal.svg";
+import n8n from "../assets/logos-ext/n8n.svg";
+import debridge from "../assets/logos-ext/deBridge.svg";
+import x_dark from "../assets/logos-ext/x_dark.svg";
+
 const logos = [
-  { id: "defillama", src: defillama, alt: "DefiLlama" },
   { id: "ai16z", src: ai16z, alt: "AI16Z" },
   { id: "elizaos", src: elizaos, alt: "ElizaOS" },
+  { id: "n8n", src: n8n, alt: "n8n" },
+  { id: "defillama", src: defillama, alt: "DefiLlama" },
   { id: "coingecko", src: coingecko, alt: "CoinGecko" },
-  { id: "discord", src: discord, alt: "Discord" },
-  { id: "telegram", src: telegram, alt: "Telegram" },
-  { id: "beets", src: beets, alt: "Beets" },
+  { id: "geckoterminal", src: geckoterminal, alt: "GeckoTerminal" },
   { id: "soniclabs", src: soniclabs, alt: "SonicLabs" },
+  { id: "beets", src: beets, alt: "Beets" },
   { id: "silo", src: silo, alt: "Silo" },
+  { id: "debridge", src: debridge, alt: "deBridge" },
+  { id: "discord", src: discord, alt: "Discord" },
+  { id: "telegram", src: telegram, alt: "Telegram" },  
+  { id: "x_dark", src: x_dark, alt: "X" },
 ];
 
 export function LogoCarousel() {
