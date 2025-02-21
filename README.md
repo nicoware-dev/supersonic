@@ -280,7 +280,7 @@ Interact with the agents with these example prompts:
 
 ### Network Information
 ```
-What is Sonic Network?
+What is Sonic?
 ```
 ### Web Search
 ```
@@ -391,12 +391,12 @@ Add liquidity to Beets wS-stS pool with 0.1 S
 Remove all liquidity from Beets wS-stS pool
 ```
 
-### Bridge Tokens (deBridge) - (WIP: Only token bridges to Arbitrum are supported)
+### Bridge Tokens (deBridge) - (WIP: Only token bridges to Arbitrum are supported for now)
 ```
 Bridge 1 USDC to Arbitrum
 ```
 ```
-Claim 0x711b9d0fa67c42ba8ef118e83b1bdd65bfda972dff5da71adbffacd8b1f9920a
+Claim 0x711b9d0fa67c42ba8ef118e83b1bdd65bfda972dff5da71adbffacd8b1f9920a (TX HASH)
 ```
 
 
