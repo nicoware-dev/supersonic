@@ -139,6 +139,7 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - Typescript
 - Python
 - NodeJS
+- n8n (Workflow Automation)
 
 
 ### 🤖 Agent Categories
@@ -159,10 +160,10 @@ For complete details about each agent's capabilities and use cases, see our [age
 9. 📝 Token Deployer: Token and liquidity pool deployment
 10. 🎨 NFT Deployer: NFT Collection deployment
 11. 🔷 Sonic Expert: Documentation, resources, tips and advice for Sonic users and devs
-12. �� Predictions Agent: Trend analysis and predictions
+12. 🎮 Predictions Agent: Trend analysis and predictions
 
 #### 🔒 Private Agents (Custom Deployments)
-13. 🎮 Coordinator Agent: Task orchestration and management. One agent to rule them all.
+13. 🎨 Coordinator Agent: Advanced orchestration system implemented in n8n for multi-agent operations. Features voice and text interactions via Telegram, with the ability to delegate tasks to specialized agents across different frameworks.
 14. 💱 DeFi Agent: Manages DeFi operations (Staking, Lending, Borrowing, Yield Farming, etc.)
 15. 📈 Trading Agent: Manages trading operations (Swaps, position management, rebalancing, strategies, etc.)
 16. 👛 Wallet Agent: Manages Sonic wallet operations (Transfers, Signatures, etc.)
@@ -239,6 +240,7 @@ For detailed service descriptions and future offerings, see our [services docume
 - [Node.js 23+](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [Git](https://git-scm.com/downloads)
 - [pnpm](https://pnpm.io/installation)
+- [n8n](https://docs.n8n.io/getting-started/installation/) (Required for Coordinator Agent)
 
 > **Note for Windows Users:** [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install-manual) and [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/) are required.
 
@@ -473,6 +475,11 @@ eliza/                                # Eliza project
   │   │   ├── types/        
   │   │   └── utils/        
   └── client/                         # Custom Web App
+n8n-workflows/                       # n8n workflow configurations
+  ├── coordinator-agent.json         # Main coordinator agent workflow
+  ├── eliza-agent-tool.json         # Eliza agent integration
+  ├── COORDINATOR_SYSTEM.md         # Coordinator system documentation
+  └── other/                        # Additional workflow configurations
 ```
 
 ## 🤝 Contributing

@@ -202,13 +202,17 @@ These agents handle SuperSonic's core platform operations and can be replicated 
 - **Type**: Private
 - **Status**: Active ✅
 - **Category**: Operations
-- **Description**: Advanced orchestration system for multi-agent operations
+- **Description**: Advanced orchestration system implemented in n8n for multi-agent operations, featuring voice and text interactions via Telegram
 - **Capabilities**:
-  - Intelligent agent coordination
-  - Dynamic task delegation
+  - Intelligent agent coordination via n8n workflows
+  - Natural language processing (voice and text)
+  - Dynamic task delegation to specialized agents
   - Real-time system monitoring
   - Performance optimization
   - Resource allocation
+  - Cross-framework agent integration
+  - Telegram-based user interface
+  - Voice message transcription and processing
 
 14. #### DeFi Agent
 - **Type**: Private

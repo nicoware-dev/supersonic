@@ -32,7 +32,7 @@
     { "path": "sonic.md", "shared": true },
     { "path": "sonic-info.md", "shared": true },
     { "path": "supersonic.md", "shared": true },
-    { "path": "demo1-agent.md", "shared": false }
+    { "path": "demo-agent.md", "shared": false }
    ],
   "messageExamples": [
     [
