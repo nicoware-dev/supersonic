@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ReactMarkdown from 'react-markdown';
@@ -20,6 +20,7 @@ import { ChatInput } from "@/components/ui/chat/chat-input";
 import { Send } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ChatFileInput } from "@/components/ui/chat/chat-file-input";
+import { messageStorage, StoredMessage } from "@/lib/storage";
 
 type TextResponse = {
     text: string;
@@ -54,6 +55,7 @@ export default function Chat() {
     const { agentId } = useParams<{ agentId: string }>();
     const [input, setInput] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [messageCount, setMessageCount] = useState(0);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const { headerSlot } = useOutletContext<OutletContextType>();
 
@@ -63,7 +65,61 @@ export default function Chat() {
 
     // Add queryClient to get messages
     const queryClient = useQueryClient();
-    const messages = queryClient.getQueryData<TextResponse[]>(["messages", agentId]) || [];
+    
+    // Load initial messages from storage when component mounts
+    useEffect(() => {
+        if (agentId) {
+            const storedMessages = messageStorage.getMessages(agentId);
+            queryClient.setQueryData(["messages", agentId], storedMessages);
+            setMessageCount(storedMessages.length);
+        }
+    }, [agentId, queryClient]);
+
+    // Query for messages
+    const { data: messages = [] } = useQuery<TextResponse[]>({
+        queryKey: ["messages", agentId],
+        queryFn: () => {
+            if (!agentId) return [];
+            return queryClient.getQueryData(["messages", agentId]) || [];
+        },
+        enabled: !!agentId,
+    });
+
+    // Update message count whenever messages change
+    useEffect(() => {
+        const nonLoadingMessages = messages.filter(msg => !msg.isLoading);
+        setMessageCount(nonLoadingMessages.length);
+    }, [messages]);
+
+    // Function to clear chat history
+    const clearChatHistory = useCallback(() => {
+        if (agentId) {
+            messageStorage.clearHistory(agentId);
+            setMessageCount(0);
+            queryClient.setQueryData(["messages", agentId], []);
+            // Force immediate re-render
+            queryClient.invalidateQueries({
+                queryKey: ["messages", agentId],
+                exact: true,
+                refetchType: "all"
+            });
+        }
+    }, [agentId, queryClient]);
+
+    // Save messages to storage whenever they change
+    useEffect(() => {
+        if (agentId && messages.length > 0) {
+            const messagesToStore = messages
+                .filter(msg => !msg.isLoading)
+                .map(msg => ({
+                    text: msg.text,
+                    user: msg.user,
+                    timestamp: Date.now(),
+                    attachments: msg.attachments
+                }));
+            messageStorage.saveMessages(agentId, messagesToStore);
+        }
+    }, [agentId, messages]);
 
     // Fetch agent details
     const { data: agent, isLoading, error } = useQuery<Agent>({
@@ -88,13 +144,6 @@ export default function Chat() {
         enabled: !!agentId,
         retry: 1,
     });
-
-    // Clear messages when agent changes
-    useEffect(() => {
-        if (agentId) {
-            queryClient.setQueryData(["messages", agentId], []);
-        }
-    }, [agentId, queryClient]);
 
     // Scroll to bottom when messages change
     useEffect(() => {
@@ -134,29 +183,46 @@ export default function Chat() {
             }
         },
         onSuccess: (data) => {
+            const newMessages = data.map(msg => ({
+                ...msg,
+                timestamp: Date.now(),
+            }));
+            
             queryClient.setQueryData(
                 ["messages", agentId],
-                (old: TextResponse[] = []) => [
-                    ...old.filter((msg) => !msg.isLoading),
-                    ...data.map((msg) => ({
-                        ...msg,
-                        createdAt: Date.now(),
-                    })),
-                ]
+                (old: TextResponse[] = []) => {
+                    const updatedMessages = [
+                        ...old.filter((msg) => !msg.isLoading),
+                        ...newMessages
+                    ];
+                    // Update message count immediately after successful message
+                    setMessageCount(updatedMessages.length);
+                    return updatedMessages;
+                }
             );
+            
+            // Force a re-render
+            queryClient.invalidateQueries({
+                queryKey: ["messages", agentId],
+                exact: true
+            });
         },
         onError: (error) => {
             console.error('Mutation error:', error);
             queryClient.setQueryData(
                 ["messages", agentId],
-                (old: TextResponse[] = []) => old.filter(msg => !msg.isLoading)
+                (old: TextResponse[] = []) => {
+                    const filteredMessages = old.filter(msg => !msg.isLoading);
+                    setMessageCount(filteredMessages.length);
+                    return filteredMessages;
+                }
             );
         },
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        if (!input.trim() || !agentId) return;
 
         const attachments = selectedFile ? [{
             url: URL.createObjectURL(selectedFile),
@@ -176,15 +242,75 @@ export default function Chat() {
             isLoading: true,
         };
 
-        queryClient.setQueryData(
-            ["messages", agentId],
-            (old: TextResponse[] = []) => [...old, userMessage, loadingMessage]
-        );
+        // Update messages immediately with user message and loading state
+        const currentMessages = queryClient.getQueryData<TextResponse[]>(["messages", agentId]) || [];
+        const updatedMessages = [...currentMessages, userMessage, loadingMessage];
+        queryClient.setQueryData(["messages", agentId], updatedMessages);
 
         setInput("");
         setSelectedFile(null);
 
-        mutation.mutate(input.trim());
+        try {
+            const formData = new FormData();
+            formData.append("text", input.trim());
+            formData.append("user", "user");
+
+            if (selectedFile) {
+                formData.append("file", selectedFile);
+            }
+
+            const res = await fetch(API_ENDPOINTS.messages(agentId), {
+                method: "POST",
+                headers: {
+                    Accept: "application/json"
+                },
+                body: formData,
+            });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error("Error response:", errorText);
+                throw new Error(`Failed to send message: ${res.status}`);
+            }
+
+            const data = await res.json() as TextResponse[];
+            const newMessages = data.map((msg: TextResponse) => ({
+                ...msg,
+                timestamp: Date.now(),
+            }));
+
+            // Update messages with response
+            const finalMessages = [
+                ...currentMessages,
+                userMessage,
+                ...newMessages
+            ];
+
+            queryClient.setQueryData(["messages", agentId], finalMessages);
+            setMessageCount(finalMessages.length);
+
+            // Save to storage
+            const storedMessages: StoredMessage[] = finalMessages.map(msg => ({
+                text: msg.text,
+                user: msg.user,
+                timestamp: Date.now(),
+                attachments: msg.attachments
+            }));
+            messageStorage.saveMessages(agentId, storedMessages);
+
+            // Force a re-render
+            queryClient.invalidateQueries({
+                queryKey: ["messages", agentId],
+                exact: true
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+            // Remove loading message on error
+            const errorMessages = queryClient.getQueryData<TextResponse[]>(["messages", agentId]) || [];
+            const cleanMessages = errorMessages.filter(msg => !msg.isLoading);
+            queryClient.setQueryData(["messages", agentId], cleanMessages);
+            setMessageCount(cleanMessages.length);
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -198,9 +324,24 @@ export default function Chat() {
     // Return header content if in header slot
     if (headerSlot) {
         return (
-            <span className="font-medium">
-                {isLoading ? 'Loading...' : agent?.name || 'No agent selected'}
-            </span>
+            <div className="flex items-center gap-4">
+                <span className="font-medium">
+                    {isLoading ? 'Loading...' : agent?.name || 'No agent selected'}
+                </span>
+                {agent && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 px-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                        onClick={clearChatHistory}
+                        disabled={messageCount === 0}
+                        title={messageCount === 0 ? "No messages to clear" : "Clear chat history"}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        Clear History
+                    </Button>
+                )}
+            </div>
         );
     }
 
@@ -212,7 +353,7 @@ export default function Chat() {
                     ref={scrollRef}
                     className="flex-1 overflow-y-auto"
                 >
-                    <div className="max-w-3xl mx-auto p-4 space-y-4">
+                    <div className="max-w-3xl mx-auto p-6 space-y-6">
                         {messages.length > 0 ? (
                             messages.map((message, idx) => (
                                 <ChatBubble
@@ -298,7 +439,27 @@ export default function Chat() {
                                     </ChatBubbleMessage>
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1">
-                                            {!message.isLoading && <CopyButton text={message.text} />}
+                                            {!message.isLoading && (
+                                                <>
+                                                    <CopyButton text={message.text} />
+                                                    {idx === messages.length - 1 && message.user === "user" && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-6 w-6 hover:bg-destructive/10 hover:text-destructive"
+                                                            onClick={() => {
+                                                                if (agentId) {
+                                                                    messageStorage.clearHistory(agentId);
+                                                                    queryClient.setQueryData(["messages", agentId], []);
+                                                                }
+                                                            }}
+                                                            title="Clear chat history"
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground hover:text-destructive"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                                                        </Button>
+                                                    )}
+                                                </>
+                                            )}
                                         </div>
                                         <ChatBubbleTimestamp variant={message.user === "user" ? "sent" : "received"}>
                                             {moment().format("LT")}
