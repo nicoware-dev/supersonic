@@ -1,13 +1,15 @@
 import { AppHeader } from "@/components/app-header";
 import { AgentsSidebar } from "@/components/agents-sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "./components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Layout() {
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const queryClient = useQueryClient();
 
     const handleClose = useCallback(() => {
         setIsSidebarOpen(false);
@@ -18,6 +20,13 @@ export default function Layout() {
             handleClose();
         }
     }, [handleClose]);
+
+    // Force a re-render of the content when location changes
+    useEffect(() => {
+        queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === "messages",
+        });
+    }, [location, queryClient]);
 
     return (
         <div className="w-full h-screen flex flex-col">
@@ -48,7 +57,13 @@ export default function Layout() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                                onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen);
+                                    // Force a re-render of the messages when toggling sidebar
+                                    queryClient.invalidateQueries({
+                                        predicate: (query) => query.queryKey[0] === "messages",
+                                    });
+                                }}
                             >
                                 <Menu className="h-5 w-5" />
                             </Button>

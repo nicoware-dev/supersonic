@@ -1,5 +1,5 @@
 import { Loader2, X } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
@@ -19,6 +19,7 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
     const { agentId: currentAgentId } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
+    const queryClient = useQueryClient();
 
     const { data: agents, isLoading, error } = useQuery<Agent[]>({
         queryKey: ["agents"],
@@ -37,7 +38,7 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
                 if (!res.ok) {
                     const text = await res.text();
                     console.error('Error response:', text);
-                    throw new Error(`Failed to fetch agents: ${res.status} ${res.statusText}`);
+                    throw new Error(`Failed to fetch agents: ${res.status}`);
                 }
 
                 const text = await res.text();
@@ -64,6 +65,17 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
             navigate(`/app/chat/${agents[0].id}`);
         }
     }, [currentAgentId, agents, navigate, location]);
+
+    const handleAgentClick = (agentId: string) => {
+        // Force a refresh of the messages when switching agents
+        queryClient.invalidateQueries({
+            queryKey: ["messages", agentId],
+            exact: true,
+            refetchType: "all"
+        });
+        navigate(`/app/chat/${agentId}`);
+        if (onClose) onClose();
+    };
 
     return (
         <div className="h-full flex flex-col bg-background">
@@ -98,7 +110,7 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
                         <Link
                             key={agent.id}
                             to={`/app/chat/${agent.id}`}
-                            onClick={onClose}
+                            onClick={() => handleAgentClick(agent.id)}
                             className={`
                                 flex items-center p-3
                                 rounded-lg transition-all duration-200
