@@ -7,7 +7,7 @@ import { Button } from "./components/ui/button";
 
 export default function Layout() {
     const location = useLocation();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const handleClose = useCallback(() => {
         setIsSidebarOpen(false);
