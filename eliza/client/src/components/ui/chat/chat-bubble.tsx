@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 
 const chatBubbleVariants = cva(
-    "relative flex w-max max-w-[75%] flex-col gap-2 text-sm transition-all duration-200",
+    "relative flex w-max max-w-[70%] flex-col gap-2 text-sm leading-relaxed tracking-normal transition-all duration-200",
     {
         variants: {
             variant: {
@@ -57,7 +57,7 @@ export function ChatBubbleMessage({
         return (
             <div
                 className={cn(
-                    "flex items-center gap-2 text-muted-foreground animate-pulse",
+                    "flex items-center gap-2 text-muted-foreground animate-pulse font-medium tracking-tight",
                     className
                 )}
                 {...props}
@@ -73,6 +73,7 @@ export function ChatBubbleMessage({
             className={cn(
                 "break-words [word-break:break-word] [hyphens:auto]",
                 "animate-in fade-in-0 slide-in-from-bottom-1 duration-200",
+                "leading-relaxed tracking-normal",
                 className
             )}
             {...props}
@@ -89,7 +90,7 @@ export function ChatBubbleTimestamp({
     return (
         <div
             className={cn(
-                "select-none text-[10px] opacity-70",
+                "select-none text-[10px] font-light tracking-wide",
                 props.variant === "sent" ? "text-white/70" : "text-muted-foreground",
                 className
             )}

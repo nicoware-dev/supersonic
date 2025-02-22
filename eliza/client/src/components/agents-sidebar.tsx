@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { API_ENDPOINTS } from "@/config";
+import { cn } from "@/lib/utils";
 
 interface Agent {
     id: string;
@@ -78,9 +79,9 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
     };
 
     return (
-        <div className="h-full flex flex-col bg-background">
+        <div className="h-full flex flex-col bg-gradient-to-b from-background to-[#121212]">
             <div className="h-14 flex items-center justify-between px-6 border-b border-white/[0.08]">
-                <span className="text-base font-semibold">Sonic DeFi Agent Swarm</span>
+                <span className="text-base font-semibold tracking-tight">Sonic DeFi Agent Swarm</span>
                 {onClose && (
                     <Button
                         variant="ghost"
@@ -98,11 +99,11 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
                         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                     </div>
                 ) : error ? (
-                    <div className="p-4 text-sm text-red-500 text-center">
+                    <div className="p-4 text-sm font-medium tracking-tight text-red-500 text-center">
                         Failed to load agents
                     </div>
                 ) : agents?.length === 0 ? (
-                    <div className="p-4 text-sm text-muted-foreground text-center">
+                    <div className="p-4 text-sm font-medium tracking-tight text-muted-foreground text-center">
                         No agents available
                     </div>
                 ) : (
@@ -111,19 +112,25 @@ export function AgentsSidebar({ onClose }: AgentsSidebarProps) {
                             key={agent.id}
                             to={`/app/chat/${agent.id}`}
                             onClick={() => handleAgentClick(agent.id)}
-                            className={`
-                                flex items-center p-3
-                                rounded-lg transition-all duration-200
-                                hover:bg-[#7f00ff]/10 cursor-pointer
-                                ${currentAgentId === agent.id ? 'bg-[#7f00ff]/10' : ''}
-                            `}
+                            className={cn(
+                                "flex items-center p-3 rounded-lg transition-all duration-200",
+                                "hover:bg-gradient-to-r hover:from-[#7f00ff]/5 hover:to-transparent",
+                                currentAgentId === agent.id ? 
+                                    "bg-gradient-to-r from-[#7f00ff]/10 to-transparent border-l-2 border-[#7f00ff]" : 
+                                    "border-l-2 border-transparent"
+                            )}
                         >
                             <div className="flex-1 min-w-0">
-                                <p className={`font-medium truncate ${currentAgentId === agent.id ? 'text-foreground' : 'text-muted-foreground'}`}>
+                                <p className={cn(
+                                    "font-medium tracking-tight truncate transition-colors duration-200",
+                                    currentAgentId === agent.id ? 
+                                        "text-foreground" : 
+                                        "text-muted-foreground hover:text-foreground"
+                                )}>
                                     {agent.name}
                                 </p>
                                 {agent.description && (
-                                    <p className="text-sm text-muted-foreground truncate mt-1">
+                                    <p className="text-sm font-light tracking-normal text-muted-foreground truncate mt-1">
                                         {agent.description}
                                     </p>
                                 )}
