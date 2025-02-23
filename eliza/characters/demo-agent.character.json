@@ -1,7 +1,7 @@
 {
   "name": "Demo Agent",
   "plugins": [],
-  "clients": ["discord", "telegram"],
+  "clients": ["telegram","discord"],
   "modelProvider": "openai",
   "settings": {
     "ragKnowledge": true,

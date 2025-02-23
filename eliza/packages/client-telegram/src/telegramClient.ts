@@ -17,7 +17,9 @@ export class TelegramClient {
         elizaLogger.log("📱 Constructing new TelegramClient...");
         this.options = {
             telegram: {
-                apiRoot: runtime.getSetting("TELEGRAM_API_ROOT") || process.env.TELEGRAM_API_ROOT || "https://api.telegram.org"
+                apiRoot: runtime.getSetting("TELEGRAM_API_ROOT") || process.env.TELEGRAM_API_ROOT || "https://api.telegram.org",
+                family: 4,
+                timeout: 5000
             },
         };
         this.runtime = runtime;
