@@ -47,7 +47,7 @@ export function LogoCarousel() {
 
     const scroll = () => {
       if (!isHovered) {
-        scrollPositionRef.current += 0.5;
+        scrollPositionRef.current += 1;
         if (scrollPositionRef.current >= totalWidth) {
           scrollPositionRef.current = 0;
         }

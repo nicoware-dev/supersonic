@@ -392,13 +392,13 @@ function Home() {
                         </p>
                     </div>
                     <div className="flex justify-center gap-8">
-                        <a href="https://x.com/AgentSuperSonic" target="_blank" rel="noopener noreferrer" className="group">
+                        <a href="https://x.com/SSAgent_1" target="_blank" rel="noopener noreferrer" className="group">
                             <Card className="bg-[#121212] border-[#27272A] hover:bg-[#1a1a1a] transition-colors p-6">
                                 <div className="flex flex-col items-center space-y-4">
                                     <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-[#7f00ff] ring-offset-2 ring-offset-[#121212] group-hover:ring-4 transition-all duration-300">
                                         <img
-                                            src="/agents/Meme Agent.png"
-                                            alt="AI Meme Agent"
+                                            src="/agents/Demo Agent.png"
+                                            alt="SuperSonic Agent"
                                             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>

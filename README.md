@@ -11,16 +11,16 @@
     <a href="https://discord.gg/dCtktdkt6J">
       <img src="https://img.shields.io/badge/Discord-Join%20Us-blue?style=for-the-badge&logo=discord" alt="Discord" />
     </a>
-    <a href="https://x.com/AgentSuperSonic">
+    <a href="https://x.com/SSAgent_1">
       <img src="https://img.shields.io/badge/X-Follow%20Us-blue?style=for-the-badge&logo=x" alt="X" />
     </a>
-    <a href="#">
+    <a href="https://youtu.be/pe806A0rEx8">
       <img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube" alt="Demo Video" />
     </a>
     <a href="https://linktr.ee/Super_Sonic">
       <img src="https://img.shields.io/badge/Linktree-Visit%20Us-green?style=for-the-badge&logo=linktree" alt="Linktree" />
     </a>
-    <a href="#">
+    <a href="https://supersonic-phi.vercel.app/">
       <img src="https://img.shields.io/badge/Website-Visit%20App-purple?style=for-the-badge&logo=vercel" alt="Website" />
     </a>
   </p>
@@ -482,7 +482,7 @@ SuperSonic is part of the broader [AI Workforce Suite (AIWS)](./docs/aiws.md), a
     <a href="https://discord.gg/dCtktdkt6J">
       <img src="https://img.shields.io/badge/Discord-Join-7289DA?style=for-the-badge&logo=discord" alt="Discord" />
     </a>
-    <a href="https://x.com/AgentSuperSonic">
+    <a href="https://x.com/SSAgent_1">
       <img src="https://img.shields.io/badge/X-Follow%20Us-blue?style=for-the-badge&logo=twitter" alt="X" />
     </a>
   </p>
