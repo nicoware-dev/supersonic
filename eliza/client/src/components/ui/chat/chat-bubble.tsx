@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 
 const chatBubbleVariants = cva(
-    "relative flex w-max max-w-[70%] flex-col gap-2 text-sm leading-relaxed tracking-normal transition-all duration-200",
+    "relative flex flex-col gap-2 text-lg sm:text-sm leading-[1.6] sm:leading-relaxed tracking-normal transition-all duration-200 w-fit",
     {
         variants: {
             variant: {
@@ -30,15 +30,17 @@ export function ChatBubble({
     ...props
 }: ChatBubbleProps) {
     return (
-        <div
-            className={cn(
-                chatBubbleVariants({ variant }),
-                "hover:translate-y-[-1px] active:translate-y-[1px] transition-all duration-200 ease-out px-5 py-3",
-                className
-            )}
-            {...props}
-        >
-            {children}
+        <div className="flex w-full">
+            <div
+                className={cn(
+                    chatBubbleVariants({ variant }),
+                    "hover:translate-y-[-1px] active:translate-y-[1px] transition-all duration-200 ease-out px-4 sm:px-5 py-3 max-w-[90%] sm:max-w-[75%]",
+                    className
+                )}
+                {...props}
+            >
+                {children}
+            </div>
         </div>
     );
 }
@@ -57,13 +59,13 @@ export function ChatBubbleMessage({
         return (
             <div
                 className={cn(
-                    "flex items-center gap-2 text-muted-foreground animate-pulse font-medium tracking-tight",
+                    "flex items-center gap-3 text-muted-foreground animate-pulse font-medium tracking-tight",
                     className
                 )}
                 {...props}
             >
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm">Thinking...</span>
+                <Loader2 className="h-6 w-6 sm:h-4 sm:w-4" />
+                <span className="text-lg sm:text-sm">Thinking...</span>
             </div>
         );
     }
@@ -71,9 +73,9 @@ export function ChatBubbleMessage({
     return (
         <div
             className={cn(
-                "break-words [word-break:break-word] [hyphens:auto]",
+                "break-words break-all whitespace-pre-wrap",
                 "animate-in fade-in-0 slide-in-from-bottom-1 duration-200",
-                "leading-relaxed tracking-normal",
+                "leading-[1.6] sm:leading-relaxed tracking-normal text-lg sm:text-sm font-[450]",
                 className
             )}
             {...props}
@@ -90,7 +92,7 @@ export function ChatBubbleTimestamp({
     return (
         <div
             className={cn(
-                "select-none text-[10px] font-light tracking-wide",
+                "select-none text-xs sm:text-[10px] font-light tracking-wide mt-1",
                 props.variant === "sent" ? "text-white/70" : "text-muted-foreground",
                 className
             )}
