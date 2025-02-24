@@ -473,7 +473,7 @@ export default function Chat() {
                                     {agent ? (
                                         `No messages yet. Start a conversation with ${agent.name}!`
                                     ) : (
-                                        "Please select an agent to start chatting"
+                                        "⬅️ Please select an agent from the sidebar to start chatting"
                                     )}
                                 </div>
                             </div>
