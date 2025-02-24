@@ -96,7 +96,7 @@ function Home() {
                                     <Button
                                         size="lg"
                                         variant="outline"
-                                        onClick={() => handleExternalLink('https://github.com/nicoware-dev/supersonic')}
+                                        onClick={() => handleExternalLink('https://supersonic-ai.gitbook.io')}
                                         className="border-[#27272A] hover:bg-[#7f00ff]/10 hover:border-[#7f00ff]/50 text-white w-full sm:w-auto"
                                     >
                                         Learn More
