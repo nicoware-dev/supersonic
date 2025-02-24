@@ -480,7 +480,7 @@ function Home() {
                             <h4 className="text-sm font-semibold text-foreground text-center">Social</h4>
                             <div className="flex flex-col items-center gap-4 mt-4">
                                 <a
-                                    href="https://t.me/supersonic_sales_bot"
+                                    href="https://t.me/+77oIT2SDIpAwZjlh"
                                     className="w-6 h-6 flex items-center justify-center"
                                     target="_blank"
                                     rel="noopener noreferrer"
