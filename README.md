@@ -23,6 +23,9 @@
     <a href="https://supersonic-phi.vercel.app/">
       <img src="https://img.shields.io/badge/Website-Visit%20App-purple?style=for-the-badge&logo=vercel" alt="Website" />
     </a>
+    <a href="https://supersonic-ai.gitbook.io">
+      <img src="https://img.shields.io/badge/Gitbook-Visit%20Docs-blue?style=for-the-badge&logo=gitbook" alt="Gitbook" />
+    </a>
   </p>
   💥 Sonic World — DeFAI Hackathon 💥
 </div>
@@ -59,13 +62,12 @@
   - [Project Structure](#project-structure)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
-- [🤖 AI Workforce Suite](#-ai-workforce-suite)
 
 ## 🌟 Overview
 
 SuperSonic is an innovative open-source project revolutionizing the Sonic DeFi landscape through AI-powered agent swarms. By employing a sophisticated multi-agent system, SuperSonic streamlines and automates DeFi operations, offering users a seamless and efficient experience on Sonic. Its modular design ensures scalability and adaptability, empowering users to navigate the complexities of DeFi with ease and confidence.
 
-You can find detailed information in our [technical specifications](docs/specs.md), [system overview](docs/overview.md), and [complete whitepaper](docs/whitepaper.md).
+You can find detailed information in our [system overview](docs/overview.md), and [complete whitepaper](docs/whitepaper.md).
 
 ### Why Multi-Agent Systems (MAS)?
 
@@ -143,13 +145,12 @@ Learn more about our agent system in the [agents documentation](docs/agents.md).
 - Typescript
 - Python
 - NodeJS
-- n8n (Workflow Automation)
+- n8n (Workflow Automation and agent orchestration)
 
 
 ### 🤖 Agent Categories
 
-For complete details about each agent's capabilities and use cases, see our [agents documentation](docs/agents.md) and [AI Workforce Suite documentation](docs/aiws.md).
-
+For complete details about each agent's capabilities and use cases, see our [agents documentation](docs/agents.md).
 #### 🏢 Internal Agents (Platform Operations)
 1. 💼 Sales Agent: Customer relations and onboarding
 2. 🎨 Meme Agent: Social media marketing agents promoting SuperSonic
@@ -179,7 +180,7 @@ For complete details about each agent's capabilities and use cases, see our [age
 
 SuperSonic is and will always be open source! We strongly encourage users to self-host their own instance of SuperSonic. This gives you full control over your data and agents while learning about the technology.
 
-For detailed implementation guidance, see our [plugin documentation](docs/plugin-supersonic.md).
+For detailed implementation guidance, see our [plugin documentation](docs/plugin.md).
 
 ### Requirements for Self-Hosting
 - Server or cloud instance (e.g., AWS, DigitalOcean, or your local machine)
@@ -197,7 +198,7 @@ While self-hosting is a DIY approach, we provide:
 
 > **Note**: The following service packages are not yet launched but will be available soon through early access. For now, we recommend self-hosting your own instance!
 
-For detailed service descriptions and future offerings, see our [services documentation](docs/services.md) and [business plan](docs/business-plan.md).
+For detailed service descriptions and future offerings, see our [services documentation](docs/services.md).
 
 ## 🚀 Quick Start
 
@@ -274,7 +275,7 @@ pnpm run dev
 
 ## 🧪 How to use?
 
-For comprehensive usage examples and advanced features, see our [plugin documentation](docs/plugin-supersonic.md).
+For comprehensive usage examples and advanced features, see our [plugin documentation](docs/plugin.md).
 
 Interact with the agents with these example prompts:
 
@@ -405,24 +406,33 @@ Claim 0x711b9d0fa67c42ba8ef118e83b1bdd65bfda972dff5da71adbffacd8b1f9920a (TX HAS
 - Ensure you have sufficient funds for transaction fees.
 - Always double-check addresses and amounts before executing transactions.
 
-## 🛠️ Development
-
-For detailed development roadmap and milestones, see our [development plan](docs/plan.md).
 
 ### Project Structure
 
 ```
 README.md                             # This file
 docs/                                 # Documentation
-  ├── SuperSonic_Pitch_Deck.pdf           # SuperSonic Pitch Deck
-  ├── agents.md                       # Agents documentation
-  ├── aiws.md                         # AI Workforce Suite docs
-  ├── business-plan.md                # Business plan and strategy
-  ├── overview.md                     # Project overview
-  ├── plan.md                         # Development roadmap
-  ├── plugin-supersonic.md                # SuperSonic plugin documentation
-  ├── specs.md                        # Technical specifications
-  └── whitepaper.md                   # Project whitepaper
+  ├── pitch-deck.pdf                      # SuperSonic Pitch Deck
+  ├── agents.md                           # Agents documentation
+  ├── branding.md                         # Branding guidelines
+  ├── contributing.md                     # Contribution guidelines
+  ├── deployment.md                       # Deployment guide
+  ├── faqs.md                            # Frequently Asked Questions
+  ├── features.md                         # Features documentation
+  ├── index.md                           # Documentation home
+  ├── integrations.md                    # Integration guides
+  ├── links.md                           # Important links
+  ├── multi-agent-system.md              # MAS architecture details
+  ├── n8n.md                             # n8n workflow documentation
+  ├── overview.md                         # Project overview
+  ├── plugin.md                          # Plugin documentation
+  ├── quick-start.md                     # Quick start guide
+  ├── self-hosting.md                    # Self-hosting instructions
+  ├── services.md                        # Services documentation
+  ├── system-overview.md                 # System architecture overview
+  ├── user-guide.md                      # User guide
+  ├── whitepaper.md                      # Project whitepaper
+  └── resources/                         # Documentation resources
 assets/                               # Branding Assets & Guidelines
 eliza/                                # Eliza project
   ├── packages/
@@ -451,7 +461,7 @@ eliza/                                # Eliza project
   │   │   ├── types/        
   │   │   └── utils/        
   └── client/                         # Custom Web App
-n8n-workflows/                       # n8n workflow configurations
+n8n/                       # n8n workflow configurations
   ├── coordinator-agent.json         # Main coordinator agent workflow
   ├── eliza-agent-tool.json         # Eliza agent integration
   ├── COORDINATOR_SYSTEM.md         # Coordinator system documentation
@@ -469,10 +479,6 @@ n8n-workflows/                       # n8n workflow configurations
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤖 AI Workforce Suite
-
-SuperSonic is part of the broader [AI Workforce Suite (AIWS)](./docs/aiws.md), a collection of tools and platforms designed to enhance and automate various aspects of decentralized finance and blockchain interactions through advanced AI technologies.
 
 ---
 

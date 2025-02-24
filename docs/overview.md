@@ -1,174 +1,23 @@
-# SuperSonic Overview
+# Overview
 
-## Introduction
+Let's talk about SuperSonic – your friendly AI-powered companion for navigating the Sonic DeFAI world. We've built an open-source platform that takes the complexity out of DeFi operations, so you can focus on what matters most: growing your portfolio.
 
-SuperSonic is a decentralized Multi-Agent System (MAS) designed to enhance DeFi operations on Sonic through intelligent automation and strategic orchestration. Our platform leverages Sonic's Layer 1 scalability and EVM compatibility to provide efficient, cost-effective DeFi automation solutions.
+## What Makes SuperSonic Special?
 
-## Core Features
+- **Smart AI Helpers Working Together**  
+  Think of it as having 18 specialized AI assistants in your pocket. They handle everything from trading and token transfers to market analysis, and even help keep your community engaged. Pretty neat, right?
 
-### DeFi Operations
-- **Status**: Active ✅
-- Token transfers (S, USDT, custom tokens)
-- Token swaps on Beets DEX
-- Lending & Borrowing on Silo Finance
-- Transaction tracking and monitoring
-- Gas optimization
-- **Coming Soon**:
-  - Liquid staking on Sonic Staking
+- **DeFi Made Easy**  
+  No more juggling multiple tools or getting lost in complex operations. Whether you're swapping tokens on Beets DEX or checking out lending options on Silo Finance, we've got you covered. And hey, we're cooking up some cool stuff with liquid staking too!
 
+- **Stay in the Loop**  
+  Keep your finger on the pulse with live market updates. We pull in real-time data from DefiLlama and CoinGecko, so you're always making moves based on the latest info.
 
-### Analytics & Data
-- **Status**: Active ✅
-- Real-time TVL metrics via DefiLlama
-- Token price tracking via CoinGecko
-- Protocol analytics
-- Market statistics
-- Performance monitoring
+- **Built for Everyone**  
+  Whether you're a coding wizard or just getting started, we've made SuperSonic super approachable. Run it on your own setup, tweak it to your liking, and if you ever get stuck, our community's here to help.
 
-### Social & Community
-- **Status**: Active ✅
-- Content creation and management
-- Community engagement
-- Brand development
-- Social media presence
-- Marketing automation
+## In a Nutshell
 
-### Development Tools
-- **Status**: Active ✅
-- Technical documentation
-- Integration guides
-- Best practices
-- EVM compatibility support
-- Gas optimization tips
+SuperSonic isn't just another DeFi tool – think of it as your smart companion that handles the heavy lifting while you focus on strategy. Want to dive deeper? Check out our [Features](./features.md) or jump right into our [Quick Start Guide](./quick-start.md) to get started!
 
-## System Architecture
-
-### Multi-Agent System
-
-SuperSonic employs a modular architecture with 18 specialized agents across three categories:
-
-1. **Internal Agents** (Platform Operations)
-   - Sales Agent
-   - Meme Agent
-   - Demo Agent
-
-2. **Public Agents** (Shared Services)
-   - Metrics Agent
-   - Token Deployer
-   - Sonic Expert
-   - Alpha Agent (Coming Soon)
-   - Analyst Agent (Coming Soon)
-   - NFTs Agent (Coming Soon)
-   - KOL Agent
-   - NFT Deployer (Coming Soon)
-   - Predictions Agent (Coming Soon)
-
-3. **Private Agents** (Custom Deployments)
-   - Coordinator Agent (n8n-based orchestration with voice/text interface via Telegram)
-   - DeFi Agent
-   - Trading Agent
-   - Wallet Agent
-   - DAO Agent (Coming Soon)
-   - Advisor Agent
-
-For detailed agent specifications, see our [agents documentation](agents.md).
-
-## Core Components
-
-### Action Framework
-- Event-driven architecture
-- Priority-based execution
-- Atomic operations
-- Transaction management
-- Gas optimization
-
-### Provider System
-- Wallet Provider (Active ✅)
-- Token Provider (Active ✅)
-- CoinGecko Provider (Active ✅)
-- DefiLlama Provider (Active ✅)
-
-For implementation details, see our [plugin documentation](plugin-supersonic.md).
-
-## Protocol Integrations
-
-### Current Integrations
-- **Beets DEX** (Active ✅)
-  - Token swaps
-  - Price discovery
-  - Transaction monitoring
-
-- **Silo Finance** 🔄
-  - Lending and borrowing
-  - Supply/withdraw
-  - Position management
-
-### Coming Soon
-- **Sonic Staking** 🔄
-  - Liquid staking
-  - Reward tracking
-  - Position management
-
-
-## Deployment Options
-
-### Self-Hosted Solution (Recommended)
-- **Status**: Active ✅
-- Full infrastructure control
-- Community support via Discord
-- Open-source codebase
-- Customizable setup
-
-### Requirements
-- Node.js 23+
-- Git
-- pnpm
-- Basic TypeScript/Node.js knowledge
-- API keys for required services
-
-For detailed setup instructions, see our [services documentation](services.md).
-
-## Security Architecture
-
-### System Security
-- Secure environment variables
-- Access control mechanisms
-- Regular security updates
-- Transaction monitoring
-- Input validation
-
-### Transaction Security
-- Gas optimization
-- Error handling
-- Recovery procedures
-- Transaction verification
-- Slippage protection
-
-### Best Practices
-1. Use secure configuration
-2. Monitor transactions
-3. Regular maintenance
-4. Follow gas optimization
-5. Implement proper error handling
-
-## Development Status
-
-### Currently Active
-- Basic wallet operations
-- Token transfers
-- Token swaps on Beets DEX
-- Lending & Borrowing on Silo Finance
-- Transaction tracking
-- Market metrics
-- Social media management
-- Platform education
-- Technical support
-
-### Work in Progress
-- Liquid staking on Sonic Staking
-- Advanced trading strategies
-- Portfolio management
-- Cross-chain operations
-
-For technical implementation details, see our [plugin documentation](plugin-supersonic.md).
-For service offerings and deployment options, see our [services documentation](services.md).
+Ready to jump in? Let's explore what SuperSonic can do for you!

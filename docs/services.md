@@ -1,192 +1,55 @@
-# SuperSonic Services
+# Services
 
-## Overview
+Let's talk about what SuperSonic offers. First things first - we're proud to be 100% open source! You can grab our code and self-host everything from DeFi operations to real-time analytics, completely free.
 
-SuperSonic is an open-source Multi-Agent System (MAS) designed for Sonic Network. Our primary focus is providing a robust, self-hosted solution that empowers users to run their own agent swarms. For detailed agent specifications, see our [agents documentation](agents.md).
+## Current Status 🎯
 
-## Current Services
+Right now, we're all about the DIY approach - you can download, deploy, and customize SuperSonic on your own infrastructure. While we don't have a hosted service yet, all our powerful features are available for you to use and modify as you see fit.
 
-### Core Services (Self-Hosted)
+Need something custom? Have specific requirements? We're here to chat about it! Just reach out if you need help beyond the standard self-hosted setup.
 
-1. #### DeFi Operations
-- **Status**: Active ✅
-- **Features**:
-  - Token transfers (S, USDT, custom tokens)
-  - Token swaps on Beets DEX
-  - Transaction tracking
-  - Gas optimization
-- **Coming Soon**:
-  - Liquid staking on Sonic Staking
-  - Lending & Borrowing on Silo Finance
+## What's Cooking? 🚀
 
-2. #### Analytics Services
-- **Status**: Active ✅
-- **Features**:
-  - Real-time TVL metrics
-  - Token price tracking
-  - Protocol analytics
-  - Market statistics
-- **Data Sources**:
-  - CoinGecko integration
-  - DefiLlama integration
+We've got some exciting plans in the works! Here's what we're thinking about for future releases:
 
-3. #### Social Services
-- **Status**: Active ✅
-- **Features**:
-  - Content creation
-  - Community management
-  - Brand development
-  - Social engagement
+### DeFi Trader Package 📈
+Perfect for serious traders:
+- Your own private agents
+- Advanced analytics tools
+- Custom trading features
 
-4. #### Development Services
-- **Status**: Active ✅
-- **Features**:
-  - Technical documentation
-  - Development support
-  - Best practices guidance
-  - EVM compatibility support
+### Social Influencer Package 🎯
+Built for content creators:
+- Content strategy tools
+- Performance tracking
+- Social media optimization
 
-## Deployment Options
+### Developer Package 💻
+For the builders out there:
+- Token deployment toolkit
+- Technical support channels
+- Enhanced security features
 
-### Self-Hosted Solution (Recommended)
-- **Status**: Active ✅
-- **Features**:
-  - Full control over infrastructure
-  - Access to all agents and features
-  - Community support via Discord
-  - Direct access to updates
-- **Requirements**:
-  - Basic server/cloud instance
-  - API keys for required services
-  - Basic TypeScript/Node.js knowledge
-- **Support**:
-  - Detailed documentation
-  - Community support
-  - GitHub issues
-  - Setup guidance
+### Enterprise Package 🏢
+For organizations needing more:
+- Custom agent deployments
+- White-label solutions
+- Advanced security features
+- SLA-backed support
 
-### Future Service Packages (Coming Soon)
+## Need Something Special? 🛠️
 
-Note: The following packages will be available in future releases.
+While SuperSonic is free to self-host, we understand some projects need extra support. If you're looking for:
+- Custom development work
+- Professional setup assessment
+- Tailored business solutions
 
-1. #### DeFi Trader Package 🔄
-- Private Trading Agent
-- Private DeFi Agent
-- Analytics Suite
-- Strategy Optimization
+...we're here to help! Our team can work with you to create exactly what you need.
 
-2. #### Social Influencer Package 🔄
-- KOL Agent
-- Content Strategy
-- Analytics Tools
-- Performance Tracking
+## Get in Touch 📬
 
-3. #### Developer Package 🔄
-- Token Deployment Tools
-- Technical Support
-- Documentation Access
-- Security Tools
+Want to discuss a custom project or need more info? Here's how to reach us:
+- **Email:** [support@supersonic.io](mailto:support@supersonic.io) *(placeholder email)*
+- **Discord:** [Join our community](https://discord.gg/dCtktdkt6J)
 
-4. #### Enterprise Package 🔄
-- Custom Agent Deployment
-- White-label Options
-- Advanced Security
-- SLA Support
-
-## Support Services
-
-### Community Support (Active ✅)
-- Discord Community
-- GitHub Discussions
-- Documentation
-- Setup Guides
-
-### Technical Support (Active ✅)
-- Implementation Guidance
-- Troubleshooting Help
-- Best Practices
-- Security Guidelines
-
-### Development Support (Active ✅)
-- Code Examples
-- Integration Guides
-- Security Practices
-- Gas Optimization Tips
-
-## Getting Started
-
-### Prerequisites
-- [Node.js 23+](https://nodejs.org/)
-- [Git](https://git-scm.com/)
-- [pnpm](https://pnpm.io/)
-
-### Basic Setup
-```bash
-# Clone the repository
-git clone https://github.com/nicoware-dev/supersonic
-cd supersonic/eliza
-
-# Install dependencies
-pnpm install
-
-# Configure environment
-cp .env.example .env
-```
-
-### Required Configuration
-```env
-# Sonic Configuration
-EVM_PRIVATE_KEY=your_private_key
-EVM_PROVIDER_URL=https://sonic.drpc.org
-
-# AI Provider (Choose One)
-OPENAI_API_KEY=           # OpenAI API key
-ANTHROPIC_API_KEY=        # Claude API key (optional)
-
-# Optional: Enhanced Features
-COINGECKO_API_KEY=        # For extended price data
-DEFILLAMA_API_KEY=        # For extended TVL data
-```
-
-## Best Practices
-
-### Security
-1. Use secure environment variables
-2. Implement proper access controls
-3. Regular security updates
-4. Monitor transactions
-5. Validate inputs
-
-### Performance
-1. Optimize gas usage
-2. Cache frequent data
-3. Batch operations
-4. Monitor resources
-5. Regular maintenance
-
-### Development
-1. Follow TypeScript best practices
-2. Implement proper error handling
-3. Write comprehensive tests
-4. Document code changes
-5. Regular backups
-
-## Development Status
-
-### Currently Active
-- Basic wallet operations
-- Token transfers
-- Token swaps on Beets DEX
-- Transaction tracking
-- Market metrics
-- Social media management
-- Platform education
-- Technical support
-
-### Work in Progress
-- Liquid staking on Sonic Staking
-- Advanced trading strategies
-- Portfolio management
-- Cross-chain operations
-
-For technical implementation details, see our [plugin documentation](plugin-supersonic.md).
+Thanks for choosing SuperSonic! We're excited to help you revolutionize your DeFi experience! 🚀

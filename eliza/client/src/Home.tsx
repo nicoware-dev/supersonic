@@ -465,9 +465,6 @@ function Home() {
                                     <img src={logo} alt="SuperSonic Logo" className="h-6 w-6" />
                                     <h3 className="text-lg font-semibold text-white">SuperSonic</h3>
                                 </div>
-                                <p className="text-sm text-muted-foreground mt-4">
-                                    Built as part of the AI Workforce Suite
-                                </p>
                             </div>
                         </div>
                         <div className="space-y-4">
