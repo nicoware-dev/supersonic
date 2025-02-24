@@ -24,7 +24,8 @@ export function HomeHeader() {
         { name: "Agents", path: "/agents" },
         { name: "Pricing", path: "#pricing" },
         { name: "Contact", path: "#contact" },
-        { name: "Contribute", path: "#opensource" }
+        { name: "Contribute", path: "#opensource" },
+        { name: "Docs", path: "https://supersonic-ai.gitbook.io/"   } 
     ];
 
     return (
