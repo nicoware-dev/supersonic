@@ -351,138 +351,140 @@ export default function Chat() {
                 {/* Messages container */}
                 <div
                     ref={scrollRef}
-                    className="flex-1 overflow-y-auto"
+                    className="flex-1 overflow-y-auto pb-[100px] w-full"
                 >
-                    <div className="max-w-3xl mx-auto p-6 space-y-6">
-                        {messages.length > 0 ? (
-                            messages.map((message, idx) => (
-                                <ChatBubble
-                                    key={`${message.user}-${idx}-${message.text}`}
-                                    variant={message.user === "user" ? "sent" : "received"}
-                                >
-                                    <ChatBubbleMessage isLoading={message.isLoading}>
-                                        {message.user === "user" ? (
-                                            <div>
-                                                <div className="whitespace-pre-wrap">{message.text}</div>
-                                                {message.attachments?.map((attachment) => (
-                                                    <div
-                                                        key={attachment.url}
-                                                        className="mt-2 rounded-md overflow-hidden border border-[#27272A]"
-                                                    >
-                                                        {attachment.contentType.startsWith("image/") && (
-                                                            <img
-                                                                src={attachment.url}
-                                                                alt={attachment.title}
-                                                                className="max-w-[200px] h-auto object-contain"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : message.isLoading ? null : (
-                                            <div className="prose prose-invert prose-sm max-w-none">
-                                                <ReactMarkdown
-                                                    remarkPlugins={[remarkGfm]}
-                                                    components={{
-                                                        p: ({node, ...props}) => <p className="mb-2 last:mb-0 whitespace-pre-line" {...props} />,
-                                                        a: ({node, ...props}) => <a className="text-[#7f00ff] hover:underline cursor-pointer" {...props} />,
-                                                        ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2" {...props} />,
-                                                        ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2" {...props} />,
-                                                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                                                        code: ({inline, ...props}: {inline?: boolean} & React.HTMLProps<HTMLElement>) =>
-                                                            inline ? (
-                                                                <code className="bg-black/30 rounded px-1 py-0.5" {...props} />
-                                                            ) : (
-                                                                <code className="block bg-black/30 rounded p-2 my-2 overflow-x-auto" {...props} />
-                                                            ),
-                                                        pre: ({node, ...props}) => <pre className="bg-black/30 rounded p-2 my-2 overflow-x-auto" {...props} />,
-                                                        h1: ({node, ...props}) => <h1 className="text-lg font-bold mb-2" {...props} />,
-                                                        h2: ({node, ...props}) => <h2 className="text-base font-bold mb-2" {...props} />,
-                                                        h3: ({node, ...props}) => <h3 className="text-sm font-bold mb-2" {...props} />,
-                                                        blockquote: ({node, ...props}) => <blockquote className="border-l-2 border-[#7f00ff] pl-4 my-2 italic" {...props} />,
-                                                        table: ({node, ...props}) => <div className="overflow-x-auto my-2"><table className="min-w-full divide-y divide-[#27272A]" {...props} /></div>,
-                                                        th: ({node, ...props}) => <th className="px-3 py-2 text-left text-sm font-semibold" {...props} />,
-                                                        td: ({node, ...props}) => <td className="px-3 py-2 text-sm" {...props} />,
-                                                        div: ({className, ...props}: React.HTMLProps<HTMLDivElement>) => {
-                                                            if (className?.includes('Position Summary') || className?.includes('Account Status')) {
-                                                                return <div className="bg-black/20 rounded-lg p-3 my-2 space-y-1" {...props} />;
-                                                            }
-                                                            return <div {...props} />;
-                                                        },
-                                                        strong: ({children, ...props}: React.HTMLProps<HTMLElement>) => {
-                                                            const text = String(children);
-                                                            if (text.startsWith('Successfully')) {
-                                                                return <strong className="text-green-400 font-medium" {...props}>{children}</strong>;
-                                                            }
-                                                            return <strong className="font-medium" {...props}>{children}</strong>;
-                                                        }
-                                                    }}
-                                                >
-                                                    {message.text}
-                                                </ReactMarkdown>
-                                                {message.attachments?.map((attachment) => (
-                                                    <div
-                                                        key={attachment.url}
-                                                        className="mt-2 rounded-md overflow-hidden border border-[#27272A]"
-                                                    >
-                                                        {attachment.contentType.startsWith("image/") && (
-                                                            <img
-                                                                src={attachment.url}
-                                                                alt={attachment.title}
-                                                                className="max-w-[200px] h-auto object-contain"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </ChatBubbleMessage>
-                                    <div className="flex items-center justify-between gap-2">
-                                        <div className="flex items-center gap-1">
-                                            {!message.isLoading && (
-                                                <>
-                                                    <CopyButton text={message.text} />
-                                                    {idx === messages.length - 1 && message.user === "user" && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-6 w-6 hover:bg-destructive/10 hover:text-destructive"
-                                                            onClick={() => {
-                                                                if (agentId) {
-                                                                    messageStorage.clearHistory(agentId);
-                                                                    queryClient.setQueryData(["messages", agentId], []);
-                                                                }
-                                                            }}
-                                                            title="Clear chat history"
+                    <div className="w-full max-w-3xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+                        <div className="flex flex-col space-y-6 w-full">
+                            {messages.length > 0 ? (
+                                messages.map((message, idx) => (
+                                    <ChatBubble
+                                        key={`${message.user}-${idx}-${message.text}`}
+                                        variant={message.user === "user" ? "sent" : "received"}
+                                    >
+                                        <ChatBubbleMessage isLoading={message.isLoading}>
+                                            {message.user === "user" ? (
+                                                <div>
+                                                    <div className="whitespace-pre-wrap">{message.text}</div>
+                                                    {message.attachments?.map((attachment) => (
+                                                        <div
+                                                            key={attachment.url}
+                                                            className="mt-2 rounded-md overflow-hidden border border-[#27272A]"
                                                         >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground hover:text-destructive"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-                                                        </Button>
-                                                    )}
-                                                </>
+                                                            {attachment.contentType.startsWith("image/") && (
+                                                                <img
+                                                                    src={attachment.url}
+                                                                    alt={attachment.title}
+                                                                    className="max-w-[200px] h-auto object-contain"
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : message.isLoading ? null : (
+                                                <div className="prose prose-invert prose-sm max-w-none">
+                                                    <ReactMarkdown
+                                                        remarkPlugins={[remarkGfm]}
+                                                        components={{
+                                                            p: ({node, ...props}) => <p className="mb-2 last:mb-0 whitespace-pre-line" {...props} />,
+                                                            a: ({node, ...props}) => <a className="text-[#7f00ff] hover:underline cursor-pointer" {...props} />,
+                                                            ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2" {...props} />,
+                                                            ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2" {...props} />,
+                                                            li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                                                            code: ({inline, ...props}: {inline?: boolean} & React.HTMLProps<HTMLElement>) =>
+                                                                inline ? (
+                                                                    <code className="bg-black/30 rounded px-1 py-0.5" {...props} />
+                                                                ) : (
+                                                                    <code className="block bg-black/30 rounded p-2 my-2 overflow-x-auto" {...props} />
+                                                                ),
+                                                            pre: ({node, ...props}) => <pre className="bg-black/30 rounded p-2 my-2 overflow-x-auto" {...props} />,
+                                                            h1: ({node, ...props}) => <h1 className="text-lg font-bold mb-2" {...props} />,
+                                                            h2: ({node, ...props}) => <h2 className="text-base font-bold mb-2" {...props} />,
+                                                            h3: ({node, ...props}) => <h3 className="text-sm font-bold mb-2" {...props} />,
+                                                            blockquote: ({node, ...props}) => <blockquote className="border-l-2 border-[#7f00ff] pl-4 my-2 italic" {...props} />,
+                                                            table: ({node, ...props}) => <div className="overflow-x-auto my-2"><table className="min-w-full divide-y divide-[#27272A]" {...props} /></div>,
+                                                            th: ({node, ...props}) => <th className="px-3 py-2 text-left text-sm font-semibold" {...props} />,
+                                                            td: ({node, ...props}) => <td className="px-3 py-2 text-sm" {...props} />,
+                                                            div: ({className, ...props}: React.HTMLProps<HTMLDivElement>) => {
+                                                                if (className?.includes('Position Summary') || className?.includes('Account Status')) {
+                                                                    return <div className="bg-black/20 rounded-lg p-3 my-2 space-y-1" {...props} />;
+                                                                }
+                                                                return <div {...props} />;
+                                                            },
+                                                            strong: ({children, ...props}: React.HTMLProps<HTMLElement>) => {
+                                                                const text = String(children);
+                                                                if (text.startsWith('Successfully')) {
+                                                                    return <strong className="text-green-400 font-medium" {...props}>{children}</strong>;
+                                                                }
+                                                                return <strong className="font-medium" {...props}>{children}</strong>;
+                                                            }
+                                                        }}
+                                                    >
+                                                        {message.text}
+                                                    </ReactMarkdown>
+                                                    {message.attachments?.map((attachment) => (
+                                                        <div
+                                                            key={attachment.url}
+                                                            className="mt-2 rounded-md overflow-hidden border border-[#27272A]"
+                                                        >
+                                                            {attachment.contentType.startsWith("image/") && (
+                                                                <img
+                                                                    src={attachment.url}
+                                                                    alt={attachment.title}
+                                                                    className="max-w-[200px] h-auto object-contain"
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             )}
+                                        </ChatBubbleMessage>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <div className="flex items-center gap-1">
+                                                {!message.isLoading && (
+                                                    <>
+                                                        <CopyButton text={message.text} />
+                                                        {idx === messages.length - 1 && message.user === "user" && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-6 w-6 hover:bg-destructive/10 hover:text-destructive"
+                                                                onClick={() => {
+                                                                    if (agentId) {
+                                                                        messageStorage.clearHistory(agentId);
+                                                                        queryClient.setQueryData(["messages", agentId], []);
+                                                                    }
+                                                                }}
+                                                                title="Clear chat history"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground hover:text-destructive"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                                                            </Button>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                            <ChatBubbleTimestamp variant={message.user === "user" ? "sent" : "received"}>
+                                                {moment().format("LT")}
+                                            </ChatBubbleTimestamp>
                                         </div>
-                                        <ChatBubbleTimestamp variant={message.user === "user" ? "sent" : "received"}>
-                                            {moment().format("LT")}
-                                        </ChatBubbleTimestamp>
+                                    </ChatBubble>
+                                ))
+                            ) : (
+                                <div className="h-[calc(100vh-200px)] flex items-center justify-center">
+                                    <div className="text-muted-foreground text-center">
+                                        {agent ? (
+                                            `No messages yet. Start a conversation with ${agent.name}!`
+                                        ) : (
+                                            "⬅️ Please select an agent from the sidebar to start chatting"
+                                        )}
                                     </div>
-                                </ChatBubble>
-                            ))
-                        ) : (
-                            <div className="h-[calc(100vh-200px)] flex items-center justify-center">
-                                <div className="text-muted-foreground text-center">
-                                    {agent ? (
-                                        `No messages yet. Start a conversation with ${agent.name}!`
-                                    ) : (
-                                        "⬅️ Please select an agent from the sidebar to start chatting"
-                                    )}
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 {/* Input form */}
-                <div className="flex-none border-t border-[#27272A] bg-[#121212]/80 z-10">
+                <div className="fixed bottom-0 left-0 right-0 border-t border-[#27272A] bg-[#121212]/80 backdrop-blur-sm z-10">
                     <div className="max-w-3xl mx-auto p-4">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                             <div className="flex items-end gap-2">

@@ -96,7 +96,7 @@ function Home() {
                                     <Button
                                         size="lg"
                                         variant="outline"
-                                        onClick={() => handleExternalLink('https://github.com/nicoware-dev/supersonic')}
+                                        onClick={() => handleExternalLink('https://supersonic-ai.gitbook.io')}
                                         className="border-[#27272A] hover:bg-[#7f00ff]/10 hover:border-[#7f00ff]/50 text-white w-full sm:w-auto"
                                     >
                                         Learn More
@@ -465,9 +465,6 @@ function Home() {
                                     <img src={logo} alt="SuperSonic Logo" className="h-6 w-6" />
                                     <h3 className="text-lg font-semibold text-white">SuperSonic</h3>
                                 </div>
-                                <p className="text-sm text-muted-foreground mt-4">
-                                    Built as part of the AI Workforce Suite
-                                </p>
                             </div>
                         </div>
                         <div className="space-y-4">
@@ -483,7 +480,7 @@ function Home() {
                             <h4 className="text-sm font-semibold text-foreground text-center">Social</h4>
                             <div className="flex flex-col items-center gap-4 mt-4">
                                 <a
-                                    href="https://t.me/supersonic_sales_bot"
+                                    href="https://t.me/+77oIT2SDIpAwZjlh"
                                     className="w-6 h-6 flex items-center justify-center"
                                     target="_blank"
                                     rel="noopener noreferrer"
