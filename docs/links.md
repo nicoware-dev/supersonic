@@ -28,15 +28,12 @@ Here are the essential links to help you connect with the SuperSonic community, 
 
 ## Additional Resources
 
-- **Documentation:**  
-  For in-depth technical details and guides, check out our docs directory.  
-  *(Refer to the repository’s documentation for more details.)*
 
 - **GitHub Repository:**  
   Get the latest code, report issues, or contribute to the project.  
   [https://github.com/nicoware-dev/supersonic](https://github.com/nicoware-dev/supersonic)
 
 - **Support & Contributions:**  
-  Find out how you can contribute or get support by checking out our Contributing guide and opening an issue on GitHub.
+  Find out how you can contribute or get support by checking out our [Contributing guide](./contributing.md) and opening an issue on GitHub.
 
 Stay connected and make the most of your SuperSonic experience!

@@ -48,6 +48,6 @@ The ElizaOS Plugin is all about making your life easier. It handles all the comp
 
 Think of the ElizaOS Plugin as your agents' trusty sidekick. It's the one doing all the heavy lifting - from talking to smart contracts to grabbing the latest market data - so your agents can focus on making smart decisions.
 
-Want to dig deeper? Check out our full [plugin documentation](docs/plugin-supersonic.md) to see everything it can do.
+Want to dig deeper? Check out our full [plugin documentation](./plugin.md) to see everything it can do.
 
 Happy automating! 🚀

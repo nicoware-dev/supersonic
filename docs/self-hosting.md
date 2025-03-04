@@ -85,7 +85,7 @@ Keep your instance up to date:
 ### Documentation
 For troubleshooting and advanced configuration:
 - Review our technical documentation
-- Check the [plugin documentation](plugin-supersonic.md)
-- Explore our [development guides](development-guide.md)
+- Check the [plugin documentation](./plugin.md)
+- Explore our [quickstart guides](./quick-start.md)
 
 Enjoy full control over your SuperSonic instance and make the most of a self-hosted, AI-powered DeFi experience! 🚀

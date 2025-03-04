@@ -49,7 +49,7 @@ While SuperSonic is free to self-host, we understand some projects need extra su
 ## Get in Touch 📬
 
 Want to discuss a custom project or need more info? Here's how to reach us:
-- **Email:** [support@supersonic.io](mailto:support@supersonic.io) *(placeholder email)*
+- **Email:** [nicoware.dev@gmail.com](mailto:nicoware.dev@gmail.com) *(placeholder email)*
 - **Discord:** [Join our community](https://discord.gg/dCtktdkt6J)
 
 Thanks for choosing SuperSonic! We're excited to help you revolutionize your DeFi experience! 🚀

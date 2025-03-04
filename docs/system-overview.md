@@ -61,6 +61,4 @@ SuperSonic is designed to grow with you:
 
 ## What's Next?
 
-Want to see how our agents work together in real life? Check out our [Technical Specifications](docs/specs.md) for the nitty-gritty details.
-
-Ready to dive deeper? Let's explore how our Multi-Agent System (MAS) makes the magic happen!
+Want to see how our agents work together in real life? Let's explore how our [Multi-Agent System (MAS)](./multi-agent-system.md) makes the magic happen!
